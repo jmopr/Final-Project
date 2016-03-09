@@ -44,8 +44,14 @@ csv_text2 = File.read('2016-salaries.csv')
 csv2 = CSV.parse(csv_text2, :headers => true)
 csv2.each do |row|
   name = row[0].split(',')[1].strip.split(' ')[0].capitalize
+  name_gender = gender.get_gender(name)
+  if name_gender == "mostly_female"
+    name_gender = "female"
+  elsif name_gender == "mostly_male"
+    name_gender = "male"
+  end
   Employee.create(name: row["NAME"], salary: row[4].gsub(/[$,]/,'').strip.to_f,
-                  gender: gender.get_gender(name), data_year: 2016,
+                  gender: name_gender, data_year: 2016,
                   department_id: Department.find_by(name: row["Department"]).id,
                   job_title_id: JobTitle.find_by(title: row["TITLE"]).id)
 end

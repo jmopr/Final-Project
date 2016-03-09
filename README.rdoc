@@ -1,28 +1,33 @@
-== README
+Final Project Repository
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Mission:
 
-Things you may want to cover:
+Our mission is to parse through the open data API at https://opendata.miamidade.gov/ to discover what / if there is a wage gap between genders in specific jobs, fields, or anything else.
 
-* Ruby version
+Features:
 
-* System dependencies
+1.     Show the different wage gaps that exist between genders, fields, and positions
+2.     Use graphs, pie-charts and other visual tools to help broadcast the message
+3.     See if gender gap in certain job fields
 
-* Configuration
+Reach Goals:
 
-* Database creation
+1.     Scrape web data and turn into an API (with pagination)
+2.     Autocomplete search queries
+3.     Cross search high wage earnings with the corrections page
+4.     Total payroll over time
 
-* Database initialization
+Future Goals:
 
-* How to run the test suite
+1.     See whether pay raises in specific fields have different percentage gaps
+2.     See whether the wage gap has changed over time
 
-* Services (job queues, cache servers, search engines, etc.)
+User Experience:
 
-* Deployment instructions
+Go to homepage and look at salary / wage gap data
 
-* ...
+User Story:
 
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+As a user
+I want to be able to look at the different charts and graphs
+so that I can conclude whether or not there are wage gaps within different genders, jobs, positions, or fields.

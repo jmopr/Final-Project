@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'gender_detector'
+
 gem 'hirb'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'

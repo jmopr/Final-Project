@@ -1,0 +1,32 @@
+<h1>Employees#index</h1>
+<% women_salary = 0 %>
+<% women_count = 0 %>
+<% men_salary = 0 %>
+<% men_count = 0 %>
+<% andy_salary = 0 %>
+<% andy_count = 0 %>
+<% @employees.each do |employee| %>
+  <% if employee.gender == "female" %>
+    <% women_salary += employee.salary %>
+    <% women_count += 1 %>
+  <% elsif employee.gender == "male" %>
+    <% men_salary += employee.salary %>
+    <% men_count += 1 %>
+  <% else %>
+    <% andy_salary += employee.salary %>
+    <% andy_count += 1 %>
+  <% end %>
+<% end %>
+
+<h4> Women's Average Salary </h4>
+<%= number_to_currency(women_salary / women_count) %>
+<h4> Total Women Workforce </h4>
+<%= women_count %>
+<h4> Men's Average Salary </h4>
+<%= number_to_currency(men_salary / men_count) %>
+<h4> Total Men Workforce </h4>
+<%= men_count %>
+<h4> Andy's Average Salary </h4>
+<%= number_to_currency(andy_salary / andy_count) %>
+<h4> Total Andy Workforce </h4>
+<%= andy_count %>
