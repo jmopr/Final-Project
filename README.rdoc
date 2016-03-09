@@ -12,10 +12,26 @@ Features:
 
 Reach Goals:
 
+=======
+
+Our mission is to parse through the open data API at https://opendata.miamidade.gov/ to discover what / if there is a wage gap between genders in specific jobs, fields, or anything else.
+
+Features:
+
+1.     Show the different wage gaps that exist between genders, fields, and positions
+2.     Use graphs, pie-charts and other visual tools to help broadcast the message
+3.     See if gender gap in certain job fields
+
+Reach Goals:
+ 
 1.     Scrape web data and turn into an API (with pagination)
 2.     Autocomplete search queries
 3.     Cross search high wage earnings with the corrections page
 4.     Total payroll over time
+
+Future Goals:
+
+=======
 
 Future Goals:
 
