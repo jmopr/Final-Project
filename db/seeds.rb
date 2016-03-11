@@ -1,57 +1,65 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
 require 'csv'
 require 'gender_detector'
+require 'with_probability'
 
-department_data = []
-job_data = []
-csv_text1 = File.read('2016-salaries.csv')
-csv1 = CSV.parse(csv_text1, :headers => true)
-csv1.each do |row|
-  unless department_data.include?(row["Department"])
-    Department.create(name: row["Department"])
-    department_data << row["Department"]
+# count = 1
+# while count <= 5
+  # Change to 2012 after tests ###
+  data_year = 2016
+  department_data = []
+  job_data = []
+  csv_text1 = File.read('2016-salaries.csv')
+  csv1 = CSV.parse(csv_text1, :headers => true)
+  csv1.each do |row|
+    department = row["Department"]  #.split.map(&:capitalize).join(" ")
+    unless department_data.include?(department)
+      Department.create(name: department)
+      department_data << department
+    end
+
+    title = row["TITLE"]  #.split.map(&:capitalize).join(" ")
+    unless job_data.include?(title)
+      JobTitle.create(title: title,
+                      department_id: Department.find_by(name: department).id)
+      job_data << title
+    end
+    # byebug
   end
-  unless job_data.include?(row["TITLE"])
-    JobTitle.create(title: row["TITLE"])
-    job_data << row["TITLE"]
+
+  def gender_guesser
+    # Assign a 51.4% of total data to female.
+    # Assign a 48.6% of total data to male.
+    with_probability(0.514) do
+      return :female
+    end
+    return :male
   end
-end
 
+  employee_data = []
+  gender = GenderDetector.new
+  csv_text2 = File.read('2016-salaries.csv')
+  csv2 = CSV.parse(csv_text2, :headers => true)
+  csv2.each do |row|
+    name = row[0].split(',')[1].strip.split(' ')[0].capitalize
+    name_gender = gender.get_gender(name)
+    if name_gender == :mostly_female
+      name_gender = :female
+    elsif name_gender == :mostly_male
+      name_gender = :male
+    elsif name_gender == :andy
+      name_gender = gender_guesser
+    end
 
-  # def guess_gender
-      # d = GenderDetector.new
-      # @name = params[:name]
-      # guessed_gender = d.get_gender(@name)
-      # guessed_gender = d.get_gender("Maria")
-      # render json: {name: @name, gender = guessed_gender}
-      # p guessed_gender
-    # end
-
-# CSV.foreach('2016-salaries.csv') do |row|
-#    unless department_data.include?(row[-1])
-#      Department.create(name: row[-1])
-#      department_data << row[-1]
-#    end
+    row_name = row["NAME"]
+    unless employee_data.include?(row_name)
+      Employee.create(name: row_name,
+                      salary: row[4].gsub(/[$,]/,'').strip.to_f,
+                      gender: name_gender, data_year: data_year,
+                      department_id: Department.find_by(name: row["Department"]).id,
+                      job_title_id: JobTitle.find_by(title: row["TITLE"]).id)
+      employee_data << row_name
+    end
+  end
+  # data_year += 1
+  # count += 1
 # end
-gender = GenderDetector.new
-csv_text2 = File.read('2016-salaries.csv')
-csv2 = CSV.parse(csv_text2, :headers => true)
-csv2.each do |row|
-  name = row[0].split(',')[1].strip.split(' ')[0].capitalize
-  name_gender = gender.get_gender(name)
-  if name_gender == "mostly_female"
-    name_gender = "female"
-  elsif name_gender == "mostly_male"
-    name_gender = "male"
-  end
-  Employee.create(name: row["NAME"], salary: row[4].gsub(/[$,]/,'').strip.to_f,
-                  gender: name_gender, data_year: 2016,
-                  department_id: Department.find_by(name: row["Department"]).id,
-                  job_title_id: JobTitle.find_by(title: row["TITLE"]).id)
-end

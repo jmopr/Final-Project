@@ -1,4 +1,8 @@
-<h1>Departments#index</h1>
-<% @departments.each do |department| %>
-  <%= department.id %>
+<h1>Data for Miami Dade County Government Departments</h1>
+<p>Select the department for more information related to it</p>
+<%= form_tag('/departments/:id', method: :get) do %>
+  <%= select_tag "Department", options_from_collection_for_select(@departments, "id", "name") %>
+  <%= select_year(Date.today, start_year: 2012, end_year: 2016) %>
+  <%= submit_tag 'Search', class: 'search_button' %>
 <% end %>
+<%= link_to 'Back', root_path %>

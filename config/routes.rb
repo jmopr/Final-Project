@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
   root 'employees#index'
 
-  get 'departments/show'
-  get 'departments/index'
-
   get 'job_titles/show'
-  get 'job_titles/index'
+  # get 'departments/index'
+  resources :departments do
+    resources :job_titles
+  end
+  # get 'job_titles/show'
+  # get 'job_titles/index'
 
   # get 'employees/index'
 

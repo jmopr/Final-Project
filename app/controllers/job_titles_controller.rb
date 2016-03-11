@@ -1,6 +1,8 @@
 class JobTitlesController < ApplicationController
   def show
-    @job_title = JobTitle.find(1)
+    @job_title = JobTitle.find(params[:JobTitle])
+    @employees = Employee.where(job_title: @job_title.id,
+                                data_year: params[:date][:year])
   end
 
   def index

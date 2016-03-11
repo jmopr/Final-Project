@@ -1,4 +1,11 @@
-<h1>Employees#index</h1>
+<h1>Employees in Miami Dade County</h1>
+<p>Select a department with a year</p>
+<%= form_tag('/departments/:id', method: :get) do %>
+  <%= select_tag "Department", options_from_collection_for_select(@department, "id", "name") %>
+  <%= select_year(Date.today, start_year: 2012, end_year: 2016) %>
+  <%= submit_tag 'Search', class: 'search_button' %>
+<% end %>
+
 <% women_salary = 0 %>
 <% women_count = 0 %>
 <% men_salary = 0 %>
@@ -18,15 +25,26 @@
   <% end %>
 <% end %>
 
-<h4> Women's Average Salary </h4>
-<%= number_to_currency(women_salary / women_count) %>
-<h4> Total Women Workforce </h4>
-<%= women_count %>
-<h4> Men's Average Salary </h4>
-<%= number_to_currency(men_salary / men_count) %>
-<h4> Total Men Workforce </h4>
-<%= men_count %>
-<h4> Andy's Average Salary </h4>
-<%= number_to_currency(andy_salary / andy_count) %>
-<h4> Total Andy Workforce </h4>
-<%= andy_count %>
+<% if women_count != 0 %>
+  <h4> Women's Average Salary </h4>
+  <%= number_to_currency(women_salary / women_count) %>
+  <h4> Total Women Workforce </h4>
+  <%= number_with_delimiter(women_count) %>
+  <h4> Total Women Workforce Percentage</h4>
+  <%= number_to_percentage((women_count.to_f/(men_count + women_count))*100, precision: 2) %>
+<% end %>
+<% if men_count != 0 %>
+  <h4> Men's Average Salary </h4>
+  <%= number_to_currency(men_salary / men_count) %>
+  <h4> Total Men Workforce </h4>
+  <%= number_with_delimiter(men_count) %>
+  <h4> Total Men Workforce Percentage</h4>
+  <%= number_to_percentage((men_count.to_f/(men_count + women_count))*100, precision: 2) %>
+<% end %>
+<h4> WorkForce's Average Salary </h4>
+<%= number_to_currency((men_salary + women_salary)/(men_count + women_count)) %>
+<h4> Total Workforce </h4>
+<%= number_with_delimiter(men_count + women_count) %>
+<br>
+
+<%= link_to 'Government Departments', departments_path %><br>
