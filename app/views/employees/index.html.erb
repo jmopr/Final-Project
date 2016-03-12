@@ -1,7 +1,7 @@
 <h1>Employees in Miami Dade County</h1>
 <%= "Data from #{@year}" %>
 <p>Select a different year to see data</p>
-<%= form_tag('/', method: :get) do %>
+<%= form_tag('/employees/index', method: :get) do %>
   <%= select_year(Date.today, start_year: 2016, end_year: 2012) %>
   <%= submit_tag 'Search', class: 'search_button' %>
 <% end %>
@@ -51,4 +51,4 @@
 <% end %>
 <br>
 
-<%= link_to 'Departments', departments_path %>
+<%= link_to 'Departments', departments_path %><br>

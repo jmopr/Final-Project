@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root 'employees#home'
-
+  get 'employees/index'
   get 'job_titles/show'
   # get 'departments/index'
   resources :departments do
