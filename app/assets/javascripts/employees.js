@@ -1,6 +1,6 @@
 $(document).ready(function(){
   $( "#department_hover" ).hover(function() {
-      $(this).append("<div class='title_append'>Our Depertment data description goes here</div>");
+      $(this).append("<a href='http://localhost:3000/departments/'><div class='title_append'>Our Depertment data description goes here</div></a>");
     }, function(){
         $(this).find("div:last").remove()
   });
@@ -8,7 +8,7 @@ $(document).ready(function(){
 
 $(document).ready(function(){
   $( "#job_hover" ).hover(function() {
-      $(this).append("<div class='title_append'>Our Job data description goes here</div>");
+      $(this).append("<a href='http://localhost:3000/departments/'><div class='title_append'>Our Job data description goes here</div>");
     }, function(){
         $(this).find("div:last").remove()
   });
