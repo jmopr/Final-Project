@@ -1,3 +1,49 @@
 // Place all the styles related to the Employees controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.wallpaper_image{
+  background-image: url("https://opendata.miamidade.gov/views/9igk-bmvc/files/n4vNLHRJTRuULaEJMaLA1OZGXaMoyp_DB5wTrFhnDQM");
+  background-size: cover;
+  height: 100%;
+  min-height: 400px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.wallpaper_content{
+  position: relative;
+  top: 50px;
+  margin: auto;
+  padding: 40px;
+  width: 75%;
+  background-color: rgba(33, 62, 123, 0.75);
+  color: white;
+}
+
+.page_link{
+  background-color: #0085BF;
+  margin-left: 7%;
+  margin-top: 2%;
+  height: 200px;
+}
+
+.page_link_title{
+  color: white;
+}
+
+.tile_pic {
+  font-size: 45px;
+  text-align: center;
+  color: white;
+  margin-top: 45px;
+}
+
+.title_append{
+  background-color: white;
+  opacity: 50%;
+  background-size: contain;
+  text-align: center;
+  position: relative;
+  top: -130px;
+  height: 167px;
+}

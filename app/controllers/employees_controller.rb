@@ -4,4 +4,7 @@ class EmployeesController < ApplicationController
     @employees = Employee.where(data_year: @year)
     @departments = Department.all
   end
+
+  def home
+  end
 end
