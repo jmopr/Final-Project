@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'employees#index'
+  root 'employees#home'
 
   get 'job_titles/show'
   # get 'departments/index'

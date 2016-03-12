@@ -3,4 +3,7 @@ class EmployeesController < ApplicationController
     @employees = Employee.all
     @department = Department.all
   end
+
+  def home
+  end
 end
