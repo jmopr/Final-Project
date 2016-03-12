@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'better_errors'
 gem 'gender_detector'
 gem 'with_probability'
 gem 'hirb'

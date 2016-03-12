@@ -4,7 +4,7 @@
 <h4> Data for this Job </h4>
 <%= form_tag('/departments/:department_id/job_titles/:id', method: :get) do %>
   <%= select_tag "JobTitle", options_from_collection_for_select(JobTitle.where(department_id: @job_title.department_id), "id", "title") %>
-  <%= select_year(Date.today, start_year: 2012, end_year: 2016) %>
+  <%= select_year(Date.today, start_year: 2016, end_year: 2012) %>
   <%= submit_tag 'Search', class: 'search_button' %>
 <% end %>
 

@@ -3,7 +3,7 @@
 
 <%= form_tag('/departments/:department_id/job_titles/:id', method: :get) do %>
   <%= select_tag "JobTitle", options_from_collection_for_select(@department.job_titles, "id", "title") %>
-  <%= select_year(Date.today, start_year: 2012, end_year: 2016) %>
+  <%= select_year(Date.today, start_year: 2016, end_year: 2012) %>
   <%= hidden_field_tag :Department, params[:Department] %>
   <%= submit_tag 'Search', class: 'search_button' %>
 <% end %>
@@ -12,8 +12,7 @@
 <% women_count = 0 %>
 <% men_salary = 0 %>
 <% men_count = 0 %>
-<% andy_salary = 0 %>
-<% andy_count = 0 %>
+
 <% @employees.each do |employee| %>
   <% if employee.gender == "female" %>
     <% women_salary += employee.salary %>
@@ -21,9 +20,6 @@
   <% elsif employee.gender == "male" %>
     <% men_salary += employee.salary %>
     <% men_count += 1 %>
-  <% else %>
-    <% andy_salary += employee.salary %>
-    <% andy_count += 1 %>
   <% end %>
 <% end %>
 
