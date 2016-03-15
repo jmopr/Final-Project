@@ -1,6 +1,6 @@
 $(document).on("page:change",function(){
   $( "#department_hover" ).hover(function() {
-      $(this).append("<a href='/departments'><div class='title_append'>Our Depertment data description goes here</div></a>");
+      $(this).append("<a href='/departments'><div class='title_append'>Our Department data description goes here</div></a>");
     }, function(){
         $(this).find("a:last").remove()
   });
