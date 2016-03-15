@@ -22,26 +22,31 @@
     <% men_count += 1 %>
   <% end %>
 <% end %>
-
-<% if women_count != 0 %>
-  <h4> Women's Average Salary </h4>
-  <%= number_to_currency(women_salary / women_count) %>
-  <h4> Total Women Workforce </h4>
-  <%= number_with_delimiter(women_count) %>
-  <h4> Total Women Workforce Percentage</h4>
-  <%= number_to_percentage((women_count.to_f/(men_count + women_count))*100, precision: 2) %>
-<% end %>
-<% if men_count != 0 %>
-  <h4> Men's Average Salary </h4>
-  <%= number_to_currency(men_salary / men_count) %>
-  <h4> Total Men Workforce </h4>
-  <%= number_with_delimiter(men_count) %>
-  <h4> Total Men Workforce Percentage</h4>
-  <%= number_to_percentage((men_count.to_f/(men_count + women_count))*100, precision: 2) %>
-<% end %>
+<div class="row">
+  <div class="col-md-3">
+    <% if women_count != 0 %>
+      <h4> Women's Average Salary </h4>
+      <%= number_to_currency(women_salary / women_count) %>
+      <h4> Total Women Workforce </h4>
+      <%= number_with_delimiter(women_count) %>
+      <h4> Total Women Workforce Percentage</h4>
+      <%= number_to_percentage((women_count.to_f/(men_count + women_count))*100, precision: 2) %>
+    <% end %>
+  </div>
+  <div class="col-md-3 col-md-offset-6">
+    <% if men_count != 0 %>
+      <h4> Men's Average Salary </h4>
+      <%= number_to_currency(men_salary / men_count) %>
+      <h4> Total Men Workforce </h4>
+      <%= number_with_delimiter(men_count) %>
+      <h4> Total Men Workforce Percentage</h4>
+      <%= number_to_percentage((men_count.to_f/(men_count + women_count))*100, precision: 2) %>
+    <% end %>
+  </div>
+</div>
 <h4> Total Workforce for this Department</h4>
 <%= number_with_delimiter(men_count + women_count) %>
 <br>
 
-<%= link_to 'Government Departments', departments_path %>
-<%= link_to 'General Employee Info for the County', employees_index_path %>
+  <%= link_to 'Government Departments', departments_path %>
+  <%= link_to 'General Employee Info for the County', employees_index_path %>

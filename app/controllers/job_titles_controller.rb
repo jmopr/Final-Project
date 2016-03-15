@@ -1,4 +1,5 @@
 class JobTitlesController < ApplicationController
+  before_filter :authorize
   def show
     @job_title = JobTitle.find(params[:JobTitle])
     @employees = Employee.where(job_title: @job_title.id,

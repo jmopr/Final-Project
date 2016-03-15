@@ -43,7 +43,9 @@
   opacity: 50%;
   background-size: contain;
   text-align: center;
-  position: relative;
-  top: -130px;
-  height: 167px;
+  position: absolute;
+  display: block;
+  top: 0px;
+  width: 90%;
+  height: 200px;
 }
