@@ -12,43 +12,154 @@
   <%= submit_tag 'Search', class: 'search_button' %>
 <% end %>
 
-<% women_salary = 0 %>
-<% women_count = 0 %>
-<% men_salary = 0 %>
-<% men_count = 0 %>
-
-<% @employees.each do |employee| %>
-  <% if employee.gender == "female" %>
-    <% women_salary += employee.salary %>
-    <% women_count += 1 %>
-  <% elsif employee.gender == "male" %>
-    <% men_salary += employee.salary %>
-    <% men_count += 1 %>
-  <% end %>
-<% end %>
-
-<% if women_count != 0 %>
   <h4> Women's Average Salary </h4>
-  <%= number_to_currency(women_salary / women_count) %>
+  <%= number_to_currency(Employee.average_salary_women(@year)) %>
   <h4> Total Women Workforce </h4>
-  <%= number_with_delimiter(women_count) %>
+  <%= number_with_delimiter(Employee.get_females(@year)) %>
   <h4> Total Women Workforce Percentage </h4>
-  <%= number_to_percentage((women_count.to_f/(men_count + women_count))*100, precision: 2) %>
-<% end %>
-<% if men_count != 0 %>
+  <%= number_to_percentage((Employee.get_females(@year).to_f/Employee.get_all_employees(@year))*100, precision: 2) %>
+
   <h4> Men's Average Salary </h4>
-  <%= number_to_currency(men_salary / men_count) %>
+  <%= number_to_currency(Employee.average_salary_men(@year)) %>
   <h4> Total Men Workforce </h4>
-  <%= number_with_delimiter(men_count) %>
+  <%= number_with_delimiter(Employee.get_males(@year)) %>
   <h4> Total Men Workforce Percentage</h4>
-  <%= number_to_percentage((men_count.to_f/(men_count + women_count))*100, precision: 2) %>
-<% end %>
-<% if men_count != 0 || women_count != 0 %>
-<h4> WorkForce's Average Salary </h4>
-<%= number_to_currency((men_salary + women_salary)/(men_count + women_count)) %>
-<h4> Total Workforce </h4>
-<%= number_with_delimiter(men_count + women_count) %>
-<% end %>
-<br>
+  <%= number_to_percentage((Employee.get_males(@year).to_f/Employee.get_all_employees(@year))*100, precision: 2) %>
+
+  <h4> WorkForce's Average Salary </h4>
+  <%= number_to_currency((Employee.average_salary_women(@year)+Employee.average_salary_men(@year))/2) %>
+  <h4> Total Workforce </h4>
+  <%= number_with_delimiter(Employee.get_all_employees(@year)) %>
+  <br>
+
+<!-- D3 for Graphs. -->
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script>
+ // SVG Container
+ var margin = { top: 20, right: 10, bottom: 100, left: 120 },
+     width = 700 - margin.right - margin.left,
+     height = 500 - margin.top - margin.bottom;
+
+ var svg = d3.select('body')
+     .append('svg')
+     .attr ({
+         "width" : width + margin.right + margin.left,
+         "height": height + margin.top + margin.bottom
+     })
+     .append('g')
+     .attr('transform', 'translate(' + margin.left + ',' + margin.right + ')');
+
+ var color = d3.scale.ordinal()
+     .range(["#0000FF", "#800080"]);
+
+ // Define x y scales
+ var xScale = d3.scale.ordinal().rangeRoundBands([0, width], 0.2, 0.2);
+ var xScale1 = d3.scale.ordinal();
+ var yScale = d3.scale.linear().range([height, 0]);
+
+ // Define axis
+ var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+ var yAxis = d3.svg.axis().scale(yScale).orient("left");
+
+ //d3.json()
+ d3.json("http://localhost:3000/employees/index.json", function(error, data){
+     if(error) console.log("Error: data not loaded");
+     var years = d3.keys(data[0]).filter(function(key) { return key !== "year"; });
+
+     data.forEach(function(d) {
+       d.people = years.map(function(name) { return {name: name, value: +d[name]}; });
+     });
+
+     //Specify domain of x and y scales.
+     xScale.domain(data.map(function(d){return d.year;}));
+     xScale1.domain(years).rangeRoundBands([0, xScale.rangeBand()]);
+     yScale.domain([0, d3.max(data, function(d) { return d3.max(d.people, function(d) { return d.value; }); })])
+
+     var year = svg.selectAll(".year")
+     .data(data)
+     .enter().append("g")
+     .attr("class", "year")
+     .attr("transform", function(d) { return "translate(" + xScale(d.year) + ",0)"; });
+
+     // Draw the bars for people.
+     year.selectAll('rect')
+        .data(function(d) { return d.people; })
+        .enter()
+        .append('rect')
+        .attr("height", 0)
+        .attr("y", height)
+        .transition().duration(3000)
+        .delay(function(d, i){return i * 200;})
+        .attr({
+          "x": function(d) {return xScale1(d.name);},
+          "y": function(d) {return yScale(d.value);},
+          "width": xScale1.rangeBand(),
+          "height": function(d) {return height - yScale(d.value);}
+        })
+        .style("fill", function(d, i){ return color(d.name); });
+
+     // Label the bars.
+     // svg.selectAll('text')
+     //    .data(data)
+     //    .enter()
+     //    .append('text')
+     //    .text(function(d){ return d.men;})
+       //  .attr("transform", "rotate(-90)")
+       //  .attr('x', function(d){ return xScale(d.year) + xScale.rangeBand()/2; })
+       //  .attr('y', function(d){ return yScale(d.people) + 12; })
+       //  .style("fill", "orange")
+       //  .style("text-anchor", "middle");
+
+     // Draw the x-axis
+     svg.append('g')
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+        .style("font-size", "20px");
+
+     // Text label for the x axis
+     svg.append("text")
+        .attr("x", (width / 2))
+        .attr("y", 450)
+        .style("text-anchor", "middle")
+        .style("font-size", "30px")
+        .text("Year");
+
+     // Draw the y-axis
+     svg.append('g')
+        .attr("class", "y axis")
+        .call(yAxis)
+        .style("font-size", "20px");
+
+     // Text label for the y axis
+     svg.append("text")
+        .attr("x", 0 - (height / 2))
+        .attr("y", - 85)
+        .attr("transform", "rotate(-90)")
+        .style("text-anchor", "middle")
+        .style("font-size", "30px")
+        .text("Average Salary ($)");
+
+     // Legend
+     var legend = svg.selectAll(".legend")
+        .data(years.slice().reverse())
+        .enter().append("g")
+        .attr("class", "legend")
+        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+     // Squares for legend.
+        legend.append("rect")
+        .attr("x", width - 18)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", color);
+     // Text for legend.
+        legend.append("text")
+        .attr("x", width - 18)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(function(d) { return d });
+ });
+</script>
 
 <%= link_to 'Departments', departments_path %><br>
