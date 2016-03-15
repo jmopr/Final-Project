@@ -1,15 +1,19 @@
-<h1 class="text">Data for Miami Dade County Government Departments</h1>
-<h5 class="text">Select the department for more information related to it</h5>
-<p class="text">
+<div class="col-md-10">
+  <h1 class="text">Data for Miami Dade County Government Departments</h1>
+  <h5 class="text">Select the department for more information related to it</h5>
+</div>
+<div class="col-md-4">
   <%= form_tag('/departments/:id', method: :get) do %>
     <%= select_tag "Department", options_from_collection_for_select(@departments, "id", "name") %>
     <%= select_year(Date.today, start_year: 2012, end_year: 2016) %>
     <%= submit_tag 'Search', class: 'search_button' %>
   <% end %>
-</p>
-<button type="button" class="btn btn-default">
-  <%= link_to 'Back', root_path %>
-</button>
+</div>
+<div class="col-md-1">
+  <button type="button" class="btn btn-default">
+    <%= link_to 'Back', root_path %>
+  </button>
+</div>
 <div class="background_image">
-  <%=image_tag("miami_aerial", height: '375px',width: '100%')%>
+  <%=image_tag("miami_aerial", height: '375px',width: '100%', id: "miami_aerial")%>
 </div>

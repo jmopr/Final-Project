@@ -1,12 +1,22 @@
-<h1> Data for this Department</h1>
-<h1><%= @department.name %></h1>
-
-<%= form_tag('/departments/:department_id/job_titles/:id', method: :get) do %>
-  <%= select_tag "JobTitle", options_from_collection_for_select(@department.job_titles, "id", "title") %>
-  <%= select_year(Date.today, start_year: 2016, end_year: 2012) %>
-  <%= hidden_field_tag :Department, params[:Department] %>
-  <%= submit_tag 'Search', class: 'search_button' %>
-<% end %>
+<div class="col-md-10">
+  <h1> Data for this Department</h1>
+  <h1><%= @department.name %></h1>
+</div>
+  <div class="col-md-5">
+  <%= form_tag('/departments/:id', method: :get) do %>
+      <%= select_tag "Department", options_from_collection_for_select(@departments = Department.all, "id", "name") %>
+      <%= select_year(Date.today, start_year: 2012, end_year: 2016) %>
+      <%= submit_tag 'Search', class: 'search_button' %></span>
+  <% end %>
+  </div>
+  <div class="col-md-4">
+    <%= form_tag('/departments/:department_id/job_titles/:id', method: :get) do %> </span>
+      <%= select_tag "JobTitle", options_from_collection_for_select(@department.job_titles, "id", "title") %>
+      <%= select_year(Date.today, start_year: 2016, end_year: 2012) %> </span>
+      <%= hidden_field_tag :Department, params[:Department] %>
+      <%= submit_tag 'Search', class: 'search_button' %>
+    <% end %>
+  </div>
 
 <% women_salary = 0 %>
 <% women_count = 0 %>
@@ -23,51 +33,31 @@
   <% end %>
 <% end %>
 
-<table class="table table-striped">
-  <tr>
-    <th> Gender </th>
-    <th> Average Salary </th>
-    <th> Total Workforce </th>
-    <th> Workforce Percentage </th>
-  </tr>
-  <tr>
-    <td>Male</td>
-    <td><%= number_to_currency(men_salary / men_count) %></td>
-    <td><%= number_with_delimiter(men_count) %></td>
-    <td><%= number_to_percentage((men_count.to_f/(men_count + women_count))*100, precision: 2) %></td>
-  </tr>
-  <tr>
-    <td>Female</td>
-    <td><%= number_to_currency(women_salary / women_count) %></td>
-    <td><%= number_with_delimiter(women_count) %></td>
-    <td><%= number_to_percentage((women_count.to_f/(men_count + women_count))*100, precision: 2) %></td>
-  </tr>
-</table>
-<div class="row">
-  <div class="col-md-3">
-    <% if women_count != 0 %>
-      <h4> Women's Average Salary </h4>
-      <%= number_to_currency(women_salary / women_count) %>
-      <h4> Total Women Workforce </h4>
-      <%= number_with_delimiter(women_count) %>
-      <h4> Total Women Workforce Percentage</h4>
-      <%= number_to_percentage((women_count.to_f/(men_count + women_count))*100, precision: 2) %>
-    <% end %>
-  </div>
-  <div class="col-md-3 col-md-offset-6">
-    <% if men_count != 0 %>
-      <h4> Men's Average Salary </h4>
-      <%= number_to_currency(men_salary / men_count) %>
-      <h4> Total Men Workforce </h4>
-      <%= number_with_delimiter(men_count) %>
-      <h4> Total Men Workforce Percentage</h4>
-      <%= number_to_percentage((men_count.to_f/(men_count + women_count))*100, precision: 2) %>
-    <% end %>
-  </div>
+<div class="col-md-12">
+    <table class="table table-striped table-bordered text-center">
+      <tr>
+        <th class="text-center"> Gender </th>
+        <th class="text-center"> Average Salary </th>
+        <th class="text-center"> Total Workforce </th>
+        <th class="text-center"> Workforce Percentage </th>
+      </tr>
+      <tr>
+        <td>Male</td>
+        <td><%= number_to_currency(men_salary / men_count) %></td>
+        <td><%= number_with_delimiter(men_count) %></td>
+        <td><%= number_to_percentage((men_count.to_f/(men_count + women_count))*100, precision: 2) %></td>
+      </tr>
+      <tr>
+        <td>Female</td>
+        <td><%= number_to_currency(women_salary / women_count) %></td>
+        <td><%= number_with_delimiter(women_count) %></td>
+        <td><%= number_to_percentage((women_count.to_f/(men_count + women_count))*100, precision: 2) %></td>
+      </tr>
+  </table>
 </div>
-<h4> Total Workforce for this Department</h4>
-<%= number_with_delimiter(men_count + women_count) %>
-<br>
+
+<%= link_to 'Government Departments', departments_path %>
+<%= link_to 'General Employee Info for the County', employees_index_path %>
 
 <!-- D3 for Graphs. -->
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -201,6 +191,3 @@
 
  });
 </script>
-
-<%= link_to 'Government Departments', departments_path %>
-<%= link_to 'General Employee Info for the County', employees_index_path %>

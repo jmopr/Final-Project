@@ -5,8 +5,8 @@
   <link rel="icon" href="http://example.com/favicon.png">
   <link rel="image_src" href="/stylesheets/images/common/socrata_logo_square.png">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => false %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => false %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -15,9 +15,9 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="http://localhost:3000/" id="nav_text">Home<span class="sr-only">(current)</span></a></li>
-          <li><a href="#" id="nav_text">Department Data</a></li>
-          <li><a href="#" id="nav_text">Job Data</a></li>
+          <li><a href="/" id="nav_text">Home<span class="sr-only">(current)</span></a></li>
+          <li><a href="/departments" id="nav_text">Department Data</a></li>
+          <li><a href="/departments/:id?utf8=✓&Department=1&date%5Byear%5D=2016&commit=Search" id="nav_text">Job Data</a></li>
           <li><a href="#" id="nav_text">Wage Gap Data</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -47,6 +47,10 @@
     </div><!-- /.container-fluid -->
   </nav>
 <%= yield %>
-
+<br>
+  <footer>
+    <p> Authors: Juan Ortiz and Ryan Barrar </p>
+    <p> Copyright: 2016 </p>
+  </footer>
 </body>
 </html>
