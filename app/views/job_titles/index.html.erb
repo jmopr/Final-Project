@@ -2,7 +2,7 @@
 <p>Select the job title for more information related to it</p>
 <%= form_tag('/job_titles/:id', method: :get) do %>
   <%= select_tag "JobTitle", options_from_collection_for_select(@job_titles, "id", "title") %>
-  <%= select_year(Date.today, start_year: 2012, end_year: 2016) %>
+  <%= select_year(Date.today, start_year: 2016, end_year: 2012) %>
   <%= submit_tag 'Search', class: 'search_button' %>
 <% end %>
 <%= link_to 'Back', root_path %>

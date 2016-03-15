@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+gem 'responders', '~> 2.0'
+gem 'active_model_serializers'
+gem 'http_accept_language'
+gem 'will_paginate'
 gem 'better_errors'
 gem 'gender_detector'
 gem 'with_probability'
