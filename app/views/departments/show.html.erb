@@ -22,6 +22,27 @@
     <% men_count += 1 %>
   <% end %>
 <% end %>
+
+<table class="table table-striped">
+  <tr>
+    <th> Gender </th>
+    <th> Average Salary </th>
+    <th> Total Workforce </th>
+    <th> Workforce Percentage </th>
+  </tr>
+  <tr>
+    <td>Male</td>
+    <td><%= number_to_currency(men_salary / men_count) %></td>
+    <td><%= number_with_delimiter(men_count) %></td>
+    <td><%= number_to_percentage((men_count.to_f/(men_count + women_count))*100, precision: 2) %></td>
+  </tr>
+  <tr>
+    <td>Female</td>
+    <td><%= number_to_currency(women_salary / women_count) %></td>
+    <td><%= number_with_delimiter(women_count) %></td>
+    <td><%= number_to_percentage((women_count.to_f/(men_count + women_count))*100, precision: 2) %></td>
+  </tr>
+</table>
 <div class="row">
   <div class="col-md-3">
     <% if women_count != 0 %>
