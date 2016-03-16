@@ -2,11 +2,21 @@
 
 <%= form_for :user, url: '/users' do |f| %>
 
-  Name: <%= f.text_field :name %>
-  Email: <%= f.text_field :email %>
-  Password: <%= f.password_field :password %>
-  Password Confirmation: <%= f.password_field :password_confirmation %>
+  Name: <%= f.text_field :name, "", placeholder: "Your Name" %>
+  Email: <%= f.text_field :email, "", placeholder: "Email" %>
+  Password: <%= f.password_field :password, "", placeholder: "Password" %>
+  Password Confirmation: <%= f.password_field :password_confirmation, "", placeholder: "Password" %>
   <%= f.submit "Submit" %>
 
 <% end %>
 <h3> Already a user? <a href="/login">Login</a> </h3>
+
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();" data-auto-logout-link="true">
+</fb:login-button>
+
+<div id="status">
+</div>
+
+<%= link_to ‘Token Transfer', signup_path, id: 'login-link' %>
+
+<%= link_to ‘Token Transfer', user_token_path, id:'token­transfer­link' %>

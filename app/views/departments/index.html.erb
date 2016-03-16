@@ -1,6 +1,6 @@
 <div class="col-md-10">
-  <h1 class="text">Data for Miami Dade County Government Departments</h1>
-  <h5 class="text">Select the department for more information related to it</h5>
+  <h1 class="text">Salary Data for Miami-Dade County Government Departments</h1>
+  <h5 class="text">Select a department</h5>
 </div>
 <div class="col-md-4">
   <%= form_tag '/departments/:id', method: :get, id: 'dept' do %>
@@ -12,6 +12,11 @@
 <div class="col-md-1">
   <button type="button" class="btn btn-default">
     <%= link_to 'Back', root_path %>
+  </button>
+</div>
+<div class="col-md-1">
+  <button type="button" class="btn btn-default">
+    <%= link_to 'Salary Information for the County', employees_index_path %>
   </button>
 </div>
 <div class="background_image">

@@ -22,7 +22,11 @@ class DepartmentsController < ApplicationController
     def get_params
       @year = params[:year] ? params[:year] : 2016
       @department = Department.find(params[:id])
+      @job_titles = JobTitle.all
       @employees = Employee.where(department_id: @department.id,
                    data_year: @year)
+      @top_ten = @employees.order(salary: :desc).limit(10)
+      @top_ten_men = @employees.where(gender: :male).order(salary: :desc).limit(10)
+      @top_ten_women = @employees.where(gender: :female).order(salary: :desc).limit(10)
     end
 end
