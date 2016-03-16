@@ -7,6 +7,26 @@
   <%= hidden_field_tag :Department, params[:Department] %>
   <%= submit_tag 'Search', class: 'search_button' %>
 <% end %>
+<div class="col-md-10">
+  <h1> Data for this Department</h1>
+  <h1><%= @department.name %></h1>
+</div>
+  <div class="col-md-5">
+  <%= form_tag('/departments/:id', method: :get) do %>
+      <%= select_tag "Department", options_from_collection_for_select(@departments = Department.all, "id", "name") %>
+      <%= select_year(Date.today, start_year: 2012, end_year: 2016) %>
+      <%= submit_tag 'Search', class: 'search_button' %></span>
+  <% end %>
+  </div>
+  <div class="col-md-4">
+    <%= form_tag('/departments/:department_id/job_titles/:id', method: :get) do %> </span>
+      <%= select_tag "JobTitle", options_from_collection_for_select(@department.job_titles, "id", "title") %>
+      <%= select_year(Date.today, start_year: 2016, end_year: 2012) %> </span>
+      <%= hidden_field_tag :Department, params[:Department] %>
+      <%= submit_tag 'Search', class: 'search_button' %>
+    <% end %>
+  </div>
+>>>>>>> de8f0fcea464201b158c4a15a88386dfeb411bdf
 
 <% women_salary = 0 %>
 <% women_count = 0 %>
@@ -54,7 +74,6 @@
 
 <%= link_to 'Government Departments', departments_path %>
 <%= link_to 'General Employee Info for the County', employees_index_path %>
-
 
 <!-- D3 for Graphs. -->
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
