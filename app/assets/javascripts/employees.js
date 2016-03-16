@@ -20,4 +20,10 @@ $(document).on("page:change",function(){
     }, function(){
         $(this).find("a:last").remove()
   });
+
+  $("form").submit(function(event) {
+    event.preventDefault();
+    window.location = "http://localhost:3000/departments/"
+                         + :id + "?department=" + params[:department]+ "year=" + params[:year];
+  });
 });

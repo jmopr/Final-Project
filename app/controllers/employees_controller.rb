@@ -1,12 +1,9 @@
 require 'json'
 class EmployeesController < ApplicationController
-  before_filter :authorize
+  before_action :get_params, only: [:index]
+  before_action :authorize
+
   def index
-    @year = params[:date] && params[:date][:year] ? params[:date][:year] : 2016
-    @employees = Employee.where(data_year: @year)
-    @departments = Department.all.sort_by &:name
-    # @employees = Employee.all(:conditions => { :salary => 75000 })
-    # Employee.all(:conditions => { :salary => 75000..100000})
     response.headers['Access-Control-Allow-Origin'] = '*'
     respond_to do |format|
       format.html
@@ -16,4 +13,12 @@ class EmployeesController < ApplicationController
 
   def home
   end
+
+  private
+    def get_params
+      @year = params[:year] ? params[:year] : 2016
+      @employees = Employee.all_employees(@year)
+      @departments = Department.all
+      @job_titles = JobTitle.all
+    end
 end

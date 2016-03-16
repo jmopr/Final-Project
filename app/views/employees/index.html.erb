@@ -2,34 +2,59 @@
 <%= "Data from #{@year}" %>
 <p>Select a different year to see data</p>
 <%= form_tag('/employees/index', method: :get) do %>
-  <%= select_year(Date.today, start_year: 2016, end_year: 2012) %>
+  <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}) %>
   <%= submit_tag 'Search', class: 'search_button' %>
 <% end %>
+
 <p>Select a specific department</p>
 <%= form_tag('/departments/:id', method: :get) do %>
-  <%= select_tag "Department", options_from_collection_for_select(@departments, "id", "name") %>
-  <%= select_year(Date.today, start_year: 2016, end_year: 2012) %>
+  <%= select_tag "department", options_from_collection_for_select(@departments, "id", "name") %>
+  <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}) %>
   <%= submit_tag 'Search', class: 'search_button' %>
 <% end %>
 
   <h4> Women's Average Salary </h4>
-  <%= number_to_currency(Employee.average_salary_women(@year)) %>
+  <%= number_to_currency(@employees.females.average(:salary)) %>
   <h4> Total Women Workforce </h4>
-  <%= number_with_delimiter(Employee.get_females(@year)) %>
+  <%= number_with_delimiter(@employees.females.count) %>
   <h4> Total Women Workforce Percentage </h4>
-  <%= number_to_percentage((Employee.get_females(@year).to_f/Employee.get_all_employees(@year))*100, precision: 2) %>
+  <%= number_to_percentage((@employees.females.count.to_f/@employees.count)*100, precision: 2) %>
 
   <h4> Men's Average Salary </h4>
-  <%= number_to_currency(Employee.average_salary_men(@year)) %>
+  <%= number_to_currency(@employees.males.average(:salary)) %>
   <h4> Total Men Workforce </h4>
-  <%= number_with_delimiter(Employee.get_males(@year)) %>
+  <%= number_with_delimiter(@employees.males.count) %>
   <h4> Total Men Workforce Percentage</h4>
-  <%= number_to_percentage((Employee.get_males(@year).to_f/Employee.get_all_employees(@year))*100, precision: 2) %>
+  <%= number_to_percentage((@employees.males.count.to_f/@employees.count)*100, precision: 2) %>
 
   <h4> WorkForce's Average Salary </h4>
-  <%= number_to_currency((Employee.average_salary_women(@year)+Employee.average_salary_men(@year))/2) %>
+  <%= number_to_currency((@employees.males.average(:salary) + @employees.females.average(:salary))/2) %>
   <h4> Total Workforce </h4>
-  <%= number_with_delimiter(Employee.get_all_employees(@year)) %>
+  <%= number_with_delimiter(@employees.count) %>
+  <h4> Top Ten Salaries in the County </h4>
+  <%= "#{@year}" %><br>
+  <% @employees.top_ten_salaries.each do |rich| %>
+    <%= rich.name %>
+    <%= number_to_currency(rich.salary) %><br>
+    <%= @departments.find(rich.department_id).name %><br>
+    <%= @job_titles.find(rich.job_title_id).title %><br>
+  <% end %>
+  <br>
+  <h4> Top Ten Men Salaries in the County </h4>
+  <% @employees.males.top_ten_salaries.each do |rich_men| %>
+    <%= rich_men.name %>
+    <%= number_to_currency(rich_men.salary) %><br>
+    <%= @departments.find(rich_men.department_id).name %><br>
+    <%= @job_titles.find(rich_men.job_title_id).title %><br>
+  <% end %>
+  <br>
+  <h4> Top Ten Women Salaries in the County </h4>
+  <% @employees.females.top_ten_salaries.each do |rich_women| %>
+    <%= rich_women.name %>
+    <%= number_to_currency(rich_women.salary) %><br>
+    <%= @departments.find(rich_women.department_id).name %><br>
+    <%= @job_titles.find(rich_women.job_title_id).title %><br>
+  <% end %>
   <br>
 
 <!-- D3 for Graphs. -->

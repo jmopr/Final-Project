@@ -1,6 +1,7 @@
 require 'json'
 class JobTitlesController < ApplicationController
-  before_filter :authorize
+  before_action :authorize
+
   def show
     @job_title = JobTitle.find(params[:JobTitle])
     @employees = Employee.where(job_title: @job_title.id,

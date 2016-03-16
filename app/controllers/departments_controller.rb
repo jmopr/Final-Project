@@ -1,11 +1,11 @@
 require 'json'
 class DepartmentsController < ApplicationController
   before_action :get_params, only: [:show]
-  before_filter :authorize
-  
+  before_action :authorize
+
   def show
     response.headers['Access-Control-Allow-Origin'] = '*'
-    data = Department.get_all_data(params[:Department])
+    data = Department.get_all_data(params[:department])
 
     respond_to do |format|
       format.html
@@ -20,9 +20,9 @@ class DepartmentsController < ApplicationController
 
   private
     def get_params
-      @year = params[:date] && params[:date][:year] ? params[:date][:year] : 2016
-      @department = Department.find(params[:Department])
+      @year = params[:year] ? params[:year] : 2016
+      @department = Department.find(params[:department])
       @employees = Employee.where(department_id: @department.id,
-                   data_year: params[:date][:year])
+                   data_year: @year)
     end
 end

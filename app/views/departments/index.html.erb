@@ -2,8 +2,8 @@
 <h5 class="text">Select the department for more information related to it</h5>
 <p class="text">
   <%= form_tag('/departments/:id', method: :get) do %>
-    <%= select_tag "Department", options_from_collection_for_select(@departments, "id", "name") %>
-    <%= select_year(Date.today, start_year: 2012, end_year: 2016) %>
+    <%= select_tag "department", options_from_collection_for_select(@departments, "id", "name") %>
+    <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}) %>
     <%= submit_tag 'Search', class: 'search_button' %>
   <% end %>
 </p>
