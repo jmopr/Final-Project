@@ -5,7 +5,7 @@ class DepartmentsController < ApplicationController
 
   def show
     response.headers['Access-Control-Allow-Origin'] = '*'
-    data = Department.get_all_data(params[:department])
+    data = Department.get_all_data(params[:id])
 
     respond_to do |format|
       format.html
@@ -21,7 +21,7 @@ class DepartmentsController < ApplicationController
   private
     def get_params
       @year = params[:year] ? params[:year] : 2016
-      @department = Department.find(params[:department])
+      @department = Department.find(params[:id])
       @employees = Employee.where(department_id: @department.id,
                    data_year: @year)
     end

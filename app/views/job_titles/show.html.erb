@@ -30,16 +30,20 @@
     <th> Workforce Percentage </th>
   </tr>
   <tr>
+    <% if men_count != 0 %>
     <td>Male</td>
     <td><%= number_to_currency(men_salary / men_count) %></td>
     <td><%= number_with_delimiter(men_count) %></td>
     <td><%= number_to_percentage((men_count.to_f/(men_count + women_count))*100, precision: 2) %></td>
+    <% end %>
   </tr>
   <tr>
+    <% if women_count != 0 %>
     <td>Female</td>
     <td><%= number_to_currency(women_salary / women_count) %></td>
     <td><%= number_with_delimiter(women_count) %></td>
     <td><%= number_to_percentage((women_count.to_f/(men_count + women_count))*100, precision: 2) %></td>
+    <% end %>
   </tr>
 </table>
 

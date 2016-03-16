@@ -21,9 +21,11 @@ $(document).on("page:change",function(){
         $(this).find("a:last").remove()
   });
 
-  $("form").submit(function(event) {
+  $("#dept").submit(function(event) {
     event.preventDefault();
+    var departmentId = $("#department").val();
+    var year = $("#year").val();
     window.location = "http://localhost:3000/departments/"
-                         + :id + "?department=" + params[:department]+ "year=" + params[:year];
+                     + departmentId + "/year/" + year;
   });
 });

@@ -1,32 +1,21 @@
 <h1> Data for this Department</h1>
 <h3><%= @department.name %></h3>
 
-<%= form_tag('/departments/:department_id/job_titles/:id', method: :get) do %>
-  <%= select_tag "JobTitle", options_from_collection_for_select(@department.job_titles, "id", "title") %>
-  <%= select_year(Date.today, start_year: 2016, end_year: 2012) %>
-  <%= hidden_field_tag :Department, params[:Department] %>
-  <%= submit_tag 'Search', class: 'search_button' %>
-<% end %>
-<div class="col-md-10">
-  <h1> Data for this Department</h1>
-  <h1><%= @department.name %></h1>
-</div>
   <div class="col-md-5">
-  <%= form_tag('/departments/:id', method: :get) do %>
-      <%= select_tag "Department", options_from_collection_for_select(@departments = Department.all, "id", "name") %>
-      <%= select_year(Date.today, start_year: 2012, end_year: 2016) %>
+  <%= form_tag '/departments/:id', method: :get, id: 'dept' do %>
+      <%= select_tag "department", options_from_collection_for_select(@departments = Department.all, "id", "name") %>
+      <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}) %>
       <%= submit_tag 'Search', class: 'search_button' %></span>
   <% end %>
   </div>
   <div class="col-md-4">
-    <%= form_tag('/departments/:department_id/job_titles/:id', method: :get) do %> </span>
+    <%= form_tag '/departments/:department_id/job_titles/:id', method: :get do %> </span>
       <%= select_tag "JobTitle", options_from_collection_for_select(@department.job_titles, "id", "title") %>
-      <%= select_year(Date.today, start_year: 2016, end_year: 2012) %> </span>
-      <%= hidden_field_tag :Department, params[:Department] %>
+      <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}) %>
+      <%= hidden_field_tag :id, params[:department] %>
       <%= submit_tag 'Search', class: 'search_button' %>
     <% end %>
   </div>
->>>>>>> de8f0fcea464201b158c4a15a88386dfeb411bdf
 
 <% women_salary = 0 %>
 <% women_count = 0 %>
@@ -105,9 +94,8 @@
  var yAxis = d3.svg.axis().scale(yScale).orient("left");
 
  //d3.json()
- // d3.json("http://localhost:3000/employees/index.json", function(error, data){
- d3.json("http://localhost:3000/departments/temp.json", function(error, data){
- // d3.csv("average_men.csv", function(error, data){
+ d3.json("http://localhost:3000/departments/1/year/2016.json", function(error, data){
+ //d3.json("http://localhost:3000/departments/"+ department +"/year/"+ year +".json", function(error, data){
      if(error) console.log("Error: data not loaded");
      var years = d3.keys(data[0]).filter(function(key) { return key !== "year"; });
 
