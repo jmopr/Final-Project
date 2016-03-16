@@ -5,15 +5,18 @@
   Password: <%= password_field_tag :password, "",placeholder: "Password" %>
   <%= submit_tag "Submit" %>
 <% end %> -->
-<a href="/signup"> Signup </a>
+
   <section class="container">
     <div class="login">
+    <div class="col-md-10">
       <h1>Login to Miami Dade County Data</h1>
       <%= form_tag '/login' do %>
-        <p><%= text_field_tag :email, "",placeholder: "Email" %></p>
-        <p>Password: <%= password_field_tag :password, "",placeholder: "Password" %></p>
-        <%= submit_tag "Submit" %>
+        <p><strong>Email:</strong><span id="email_field"><%= text_field_tag :email, "",placeholder: "Email" %></span></p>
+        <p><strong>Password: </strong><%= password_field_tag :password, "",placeholder: "Password" %></p>
+        <p><%= submit_tag "Submit" %>            <a href="/signup" class="signup"> Signup </a></p>
       <% end %>
+
+    </div>
       <!-- <form method="post" action="index.html">
         <p><input type="text" name="login" value="" placeholder="Username or Email">
         <p><input type="password" name="password" value="" placeholder="Password"></p>

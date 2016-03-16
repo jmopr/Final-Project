@@ -1,22 +1,44 @@
-<h1>Signup!</h1>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Miami Dade County Data Center</title>
+  <link rel="icon" href="http://example.com/favicon.png">
+  <link rel="image_src" href="/stylesheets/images/common/socrata_logo_square.png">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => false %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => false %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div class="wallpaper_image">
+    <div class="col-md-10">
+      <h1>Signup!</h1>
 
-<%= form_for :user, url: '/users' do |f| %>
+      <%= form_for :user, url: '/users' do |f| %>
 
-  Name: <%= f.text_field :name, "", placeholder: "Your Name" %>
-  Email: <%= f.text_field :email, "", placeholder: "Email" %>
-  Password: <%= f.password_field :password, "", placeholder: "Password" %>
-  Password Confirmation: <%= f.password_field :password_confirmation, "", placeholder: "Password" %>
-  <%= f.submit "Submit" %>
+        <p class="name"><strong>Name: </strong><span class="name_field"><%= f.text_field :name, placeholder: "Your Name" %></span>
+        <strong class="email">Email: </strong><span class="email_field"><%= f.text_field :email, placeholder: "Email" %></p></span>
+        <p><strong>Password: </strong><%= f.password_field :password, placeholder: "Password" %>
+        <strong>Password Confirmation: </strong><%= f.password_field :password_confirmation, placeholder: "Password" %>
+        <%= f.submit "Submit" %></p>
 
-<% end %>
-<h3> Already a user? <a href="/login">Login</a> </h3>
+      <% end %>
+      <h3> Already a user? <button type="button" class="btn btn-default"><a href="/login">Login</a></button> </h3>
 
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();" data-auto-logout-link="true">
-</fb:login-button>
+      <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" data-auto-logout-link="true">
+      </fb:login-button>
 
-<div id="status">
-</div>
+      <div id="status"></div>
+    </div>
+  </div>
 
-<%= link_to ‘Token Transfer', signup_path, id: 'login-link' %>
+  <!-- <%= link_to 'Token Transfer', signup_path, id: 'login-link' %>
 
-<%= link_to ‘Token Transfer', user_token_path, id:'token­transfer­link' %>
+  <%= link_to 'Token Transfer', user_token_path, id:'token­transfer­link' %> -->
+  <br>
+    <footer>
+      <p> Authors: Juan Ortiz and Ryan Barrar </p>
+      <p> Copyright: 2016 </p>
+    </footer>
+  </body>
+</html>

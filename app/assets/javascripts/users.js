@@ -1,4 +1,4 @@
-$(document).on("page:change",function(){
+$(document).on("ready",function(){
   $( "#department_hover" ).hover(function() {
       $(this).append("<a href='/departments'><div class='title_append'>Our Department data description goes here</div></a>");
     }, function(){

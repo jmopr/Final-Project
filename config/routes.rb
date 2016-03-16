@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  root 'employees#home'
+  root 'users#home'
   get 'employees/index'
   get 'job_titles/show'
+  get 'employees/home'
   # get 'departments/index'
   resources :departments do
     resources :job_titles
