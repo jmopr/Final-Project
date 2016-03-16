@@ -21,8 +21,8 @@ class Employee < ActiveRecord::Base
   # Returns an array of hashes with the average salary for both genders.
   def self.get_data_for_year(year)
     return {
-      men: all_employees(year).males.average(:salary),
-      women: all_employees(year).females.average(:salary)
+      men: all_employees(year).males.average(:salary).round(2),
+      women: all_employees(year).females.average(:salary).round(2)
     }
   end
 end

@@ -81,12 +81,12 @@ function testAPI() {
       if(access_token){
         window.location = $(event.target).attr('href') + '?token=' + accessToken;
       } else {
-}
-
-alert("Please login to Facebook first.");
       }
-    });
+
+      alert("Please login to Facebook first.");
+    }
   });
+});
 }
 
 $('#login-link').click(function(event) {
