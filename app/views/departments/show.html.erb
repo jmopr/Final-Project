@@ -120,136 +120,54 @@
   </table>
 </div>
 
-<!-- D3 for Graphs. -->
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script>
- // SVG Container
- var margin = { top: 20, right: 10, bottom: 100, left: 120 },
-     width = 700 - margin.right - margin.left,
-     height = 500 - margin.top - margin.bottom;
+<div id="container" style="width: 550px; height: 400px; margin: 0 auto"></div>
+<script language="JavaScript">
+$(document).ready(function() {
+    var options = {
+        chart: {
+            renderTo: 'container',
+            type: 'column'
+        },
+        title: {
+            text: "Average Salary Men/Women in <%= @department.name %>"
+        },
+        colors: ['#0000FF', '#800080']
+    };
 
- var svg = d3.select('body')
-     .append('svg')
-     .attr ({
-         "width" : width + margin.right + margin.left,
-         "height": height + margin.top + margin.bottom
-     })
-     .append('g')
-     .attr('transform', 'translate(' + margin.left + ',' + margin.right + ')');
-
- var color = d3.scale.ordinal()
-     .range(["#0000FF", "#800080"]);
-
- // Define x y scales
- var xScale = d3.scale.ordinal().rangeRoundBands([0, width], 0.2, 0.2);
- var xScale1 = d3.scale.ordinal();
- var yScale = d3.scale.linear().range([height, 0]);
-
- // Define axis
- var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
- var yAxis = d3.svg.axis().scale(yScale).orient("left");
-
- //d3.json()
- d3.json("http://localhost:3000/departments/1/year/2016.json", function(error, data){
- //d3.json("http://localhost:3000/departments/"+ department +"/year/"+ year +".json", function(error, data){
-     if(error) console.log("Error: data not loaded");
-     var years = d3.keys(data[0]).filter(function(key) { return key !== "year"; });
-
-     data.forEach(function(d) {
-       d.people = years.map(function(name) { return {name: name, value: +d[name]}; });
-     });
-
-     //Specify domain of x and y scales.
-     xScale.domain(data.map(function(d){return d.year;}));
-     xScale1.domain(years).rangeRoundBands([0, xScale.rangeBand()]);
-     yScale.domain([0, d3.max(data, function(d) { return d3.max(d.people, function(d) { return d.value; }); })])
-
-     var year = svg.selectAll(".year")
-     .data(data)
-     .enter().append("g")
-     .attr("class", "year")
-     .attr("transform", function(d) { return "translate(" + xScale(d.year) + ",0)"; });
-
-     // Draw the bars for people.
-     year.selectAll('rect')
-        .data(function(d) { return d.people; })
-        .enter()
-        .append('rect')
-        .attr("height", 0)
-        .attr("y", height)
-        .transition().duration(3000)
-        .delay(function(d, i){return i * 200;})
-        .attr({
-          "x": function(d) {return xScale1(d.name);},
-          "y": function(d) {return yScale(d.value);},
-          "width": xScale1.rangeBand(),
-          "height": function(d) {return height - yScale(d.value);}
-        })
-        .style("fill", function(d, i){ return color(d.name); });
-
-     // Label the bars.
-     // svg.selectAll('text')
-     //    .data(data)
-     //    .enter()
-     //    .append('text')
-     //    .text(function(d){ return d.men;})
-       //  .attr("transform", "rotate(-90)")
-       //  .attr('x', function(d){ return xScale(d.year) + xScale.rangeBand()/2; })
-       //  .attr('y', function(d){ return yScale(d.people) + 12; })
-       //  .style("fill", "orange")
-       //  .style("text-anchor", "middle");
-
-     // Draw the x-axis
-     svg.append('g')
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis)
-        .style("font-size", "20px");
-
-     // Text label for the x axis
-     svg.append("text")
-        .attr("x", (width / 2))
-        .attr("y", 450)
-        .style("text-anchor", "middle")
-        .style("font-size", "30px")
-        .text("Year");
-
-     // Draw the y-axis
-     svg.append('g')
-        .attr("class", "y axis")
-        .call(yAxis)
-        .style("font-size", "20px");
-
-     // Text label for the y axis
-     svg.append("text")
-        .attr("x", 0 - (height / 2))
-        .attr("y", - 85)
-        .attr("transform", "rotate(-90)")
-        .style("text-anchor", "middle")
-        .style("font-size", "30px")
-        .text("Average Salary ($)");
-
-     // Legend
-     var legend = svg.selectAll(".legend")
-        .data(years.slice().reverse())
-        .enter().append("g")
-        .attr("class", "legend")
-        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-     // Squares for legend.
-        legend.append("rect")
-        .attr("x", width - 18)
-        .attr("width", 18)
-        .attr("height", 18)
-        .style("fill", color);
-     // Text for legend.
-        legend.append("text")
-        .attr("x", width - 18)
-        .attr("y", 9)
-        .attr("dy", ".35em")
-        .style("text-anchor", "end")
-        .text(function(d) { return d });
-
- });
+    // $.getJSON('http://localhost:3000/departments/<%@department.id%>/year/<%@year%>.json', function(data) {
+    $.getJSON('http://localhost:3000/departments/1/year/2016.json', function(data) {
+        var men_data = [];
+        var women_data = [];
+        var years = [];
+        for(key in data){
+          men_data.push(parseFloat(data[key].men));
+          women_data.push(parseFloat(data[key].women));
+          years.push(data[key].year);
+        }
+        options.yAxis = {
+          title: {
+              text: "Average Salary ($)"
+          }
+        }
+        options.xAxis = {
+          categories: years,
+          title: {
+              text: "Year"
+          }
+        }
+        options.series = [
+          {
+            name: 'Men',
+            data: men_data
+          },
+          {
+            name: 'Women',
+            data: women_data
+          }
+        ]
+        var chart = new Highcharts.Chart(options);
+    });
+});
 </script>
 
 <%= link_to 'Home Page', root_path %> |
