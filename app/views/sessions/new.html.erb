@@ -11,7 +11,7 @@
     <div class="col-md-10">
       <h1>Login to Miami Dade County Data</h1>
       <%= form_tag '/login' do %>
-        <p><strong>Email:</strong><span class="email_field"><%= text_field_tag :email, "",placeholder: "Email" %></span></p>
+        <p><strong>Email:</strong><span id="email_field"><%= text_field_tag :email, "",placeholder: "Email" %></span></p>
         <p><strong>Password: </strong><%= password_field_tag :password, "",placeholder: "Password" %></p>
         <p><%= submit_tag "Submit" %>            <a href="/signup" class="signup"> Signup </a></p>
       <% end %>
