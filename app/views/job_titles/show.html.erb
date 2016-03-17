@@ -62,13 +62,14 @@
   </tr>
 </table>
 
-  <div id="jobs_chart_container" style="width: 1000px; height: 400px; margin: 0 auto"></div>
+<div id="jobs_chart_container" style="width: 1000px; height: 400px; margin: 0 auto"></div>
 </div>
+
 <script language="JavaScript">
 $(document).ready(function() {
     var options = {
         chart: {
-            renderTo: 'container',
+            renderTo: 'jobs_chart_container',
             type: 'spline'
             // type: 'column'
         },
@@ -81,7 +82,6 @@ $(document).ready(function() {
         colors: ['#0000FF', '#800080']
     };
 
-    // $.getJSON('/departments/<%=@job_title.id%>/year/<%=@year%>.json', function(data) {
     $.getJSON('/departments/<%=Department.find_by(id: @job_title.department_id).id%>/job_titles/<%=@job_title.id%>/year/<%=@year%>.json', function(data) {
         var men_data = [];
         var women_data = [];
