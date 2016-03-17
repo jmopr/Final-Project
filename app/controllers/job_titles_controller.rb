@@ -3,11 +3,13 @@ class JobTitlesController < ApplicationController
   before_action :authorize
 
   def show
-    @job_title = JobTitle.find(params[:JobTitle])
-    @employees = Employee.where(job_title: @job_title.id,
-                                data_year: params[:year])
+    @year = params[:year]
+    @job_title = JobTitle.find(params[:job_Title])
+    @employees = Employee.where(job_title_id: @job_title.id,
+                                data_year: @year)
+                                
+    data = JobTitle.get_all_data(params[:job_Title])
 
-    data = JobTitle.get_all_data(params[:JobTitle])
     response.headers['Access-Control-Allow-Origin'] = '*'
     respond_to do |format|
       format.html
