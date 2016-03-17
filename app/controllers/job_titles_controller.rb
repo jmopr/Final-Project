@@ -4,11 +4,11 @@ class JobTitlesController < ApplicationController
 
   def show
     @year = params[:year]
-    @job_title = JobTitle.find(params[:job_Title])
+    @job_title = JobTitle.find(params[:job_title_id])
     @employees = Employee.where(job_title_id: @job_title.id,
                                 data_year: @year)
-                                
-    data = JobTitle.get_all_data(params[:job_Title])
+
+    data = JobTitle.get_all_data(@job_title.id)
 
     response.headers['Access-Control-Allow-Origin'] = '*'
     respond_to do |format|

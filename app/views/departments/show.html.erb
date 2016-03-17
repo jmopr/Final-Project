@@ -11,7 +11,7 @@
   </div>
   <div class="col-md-4">
     <% job_titles = @department.job_titles.sort_by &:title %>
-    <%= form_tag '/departments/:department_id/job_titles/:id', method: :get, id: 'job_route' do %>
+    <%= form_tag '/departments/:department_id/job_titles/:/job_title_id/year/:year', method: :get, id: 'job_route' do %>
       <%= select_tag "job_Title", options_from_collection_for_select(job_titles, "id", "title") %>
       <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}) %>
       <%= hidden_field_tag "department_id", @department.id %>

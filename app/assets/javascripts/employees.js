@@ -1,6 +1,6 @@
-$(document).on("page:change",function(){
+$(document).on("ready",function(){
   $( "#department_hover" ).hover(function() {
-      $(this).append("<a href='/departments'><div class='title_append'>Our Department data description goes here</div></a>");
+      $(this).append("<a href='/departments'><div class='title_append'><img alt='department_data' id='department_data_graph' src='/assets/department_data' /></div></a>");
     }, function(){
         $(this).find("a:last").remove()
   });
@@ -12,18 +12,23 @@ $(document).on("page:change",function(){
   });
 
   $( "#gender_hover" ).hover(function() {
-      $(this).append("<a href='/employees/index'><div class='title_append'>Our Gender data description goes here</div>");
+      $(this).append("<a href='/employees/index'><div class='title_append'><img alt='gender_gap' id='gender_gap_graph' src='/assets/gender_gap_data' /></div>");
     }, function(){
         $(this).find("a:last").remove()
   });
 
+  $("#dept").submit(function(event) {
+    event.preventDefault();
+    var departmentId = $("#department").val();
+    var year = $("#year").val();
+    window.location = "/departments/" + departmentId + "/year/" + year;
+  });
+
   $("#job_route").submit(function(event) {
     event.preventDefault();
-    alert("Hi");
-    // var departmentId = $("#department_id").val();
-    // var jobTitleId = $("#job_title").val();
-    // var year = $("#year").val();
-    // window.location = "http://localhost:3000/departments/"
-    //                  + departmentId + "/job_title/" + jobTitleId + "/year/" + year;
+    var departmentId = $("#department").val();
+    var jobTitleId = $("#job_Title").val();
+    var year = $("#year").val();
+    window.location = "/departments/" + departmentId + "/job_titles/" + jobTitleId + "/year/" + year;
   });
 });

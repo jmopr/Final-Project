@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   post '/users' => 'users#create'
 
   get '/departments/:id/year/:year' => 'departments#show'
-  get '/departments/:department_id/job_titles/:id/year/:year' => 'job_titles#show'
+  get '/departments/:department_id/job_titles/:job_title_id/year/:year' => 'job_titles#show'
   # get 'home/index'
   get 'user/token'
   # The priority is based upon order of creation: first created -> highest priority.
