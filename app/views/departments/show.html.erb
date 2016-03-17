@@ -121,14 +121,14 @@
     </tr>
     <% end %>
   </table>
+  <div id="chart_container" style="width: 1000px; height: 400px; margin: 0 auto"></div>
 </div>
 
-<div id="container" style="width: 550px; height: 400px; margin: 0 auto"></div>
 <script language="JavaScript">
 $(document).ready(function() {
     var options = {
         chart: {
-            renderTo: 'container',
+            renderTo: 'chart_container',
             type: 'column'
         },
         title: {
