@@ -15,12 +15,11 @@ class DepartmentsController < ApplicationController
 
   def index
     @departments = Department.all.sort_by &:name
-    @job_titles = JobTitle.all.sort_by &:title
   end
 
   private
     def get_params
-      @year = params[:year] ? params[:year] : 2016
+      @year = params[:year] #? params[:year] : 2016
       @department = Department.find(params[:id])
       @job_titles = JobTitle.all
       @employees = Employee.where(department_id: @department.id,

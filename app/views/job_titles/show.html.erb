@@ -1,12 +1,16 @@
-<h1>Job Title Data for the Miami Dade County Government</h1>
-<h1><%= @job_title.title %></h1>
-<h4><%= Department.find_by(id: @job_title.department_id).name %></h4>
-<h4> Data for this Job </h4>
-<%= form_tag('/departments/:department_id/job_titles/:id', method: :get) do %>
-  <%= select_tag "JobTitle", options_from_collection_for_select(JobTitle.where(department_id: @job_title.department_id), "id", "title") %>
+<div class="col-md-10">
+<h3><%= Department.find_by(id: @job_title.department_id).name %> for Miami-Dade County</h3>
+<h3>Job Title - <%= @job_title.title %></h3>
+<h3><%= "Data from #{@year}" %></h3>
+</div>
+<div class="col-md-5">
+<% job_titles = JobTitle.where(department_id: @job_title.department_id).sort_by &:title %>
+<%= form_tag '/departments/:department_id/job_titles/:id/year/:year', method: :get, id: 'job_route' do %>
+  <%= select_tag "job_Title", options_from_collection_for_select(job_titles, "id", "title") %>
   <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}) %>
   <%= submit_tag 'Search', class: 'search_button' %>
 <% end %>
+</div>
 
 <% women_salary = 0 %>
 <% women_count = 0 %>
@@ -22,12 +26,15 @@
   <% end %>
 <% end %>
 
-<table class="table table-striped">
+<!-- General Data for the Job Title -->
+<div class="col-md-12">
+<h4> Data for this Job </h4>
+<table class="table table-striped table-bordered text-center">
   <tr>
-    <th> Gender </th>
-    <th> Average Salary </th>
-    <th> Total Workforce </th>
-    <th> Workforce Percentage </th>
+    <th class="text-center"> Gender </th>
+    <th class="text-center"> Average Salary </th>
+    <th class="text-center"> Total Workforce </th>
+    <th class="text-center"> Workforce Percentage </th>
   </tr>
   <tr>
     <% if men_count != 0 %>
@@ -45,32 +52,67 @@
     <td><%= number_to_percentage((women_count.to_f/(men_count + women_count))*100, precision: 2) %></td>
     <% end %>
   </tr>
+  <tr>
+    <% if women_count != 0 %>
+    <td>Department Totals</td>
+    <td><%= number_to_currency((women_salary + men_salary) / (men_count + women_count)) %></td>
+    <td><%= number_with_delimiter(men_count + women_count) %></td>
+    <td><%= number_to_percentage((men_count + women_count)/(men_count + women_count)*100, precision: 2) %></td>
+    <% end %>
+  </tr>
 </table>
 
-    <% if women_count != 0 %>
-      <h4> Women's Average Salary </h4>
-      <%= number_to_currency(women_salary / women_count) %>
-      <h4> Total Women Workforce </h4>
-      <%= number_with_delimiter(women_count) %>
-      <h4> Total Women Workforce Percentage</h4>
-      <%= number_to_percentage((women_count.to_f/(men_count + women_count))*100, precision: 2) %>
-    <% end %>
-    <% if men_count != 0 %>
-      <h4> Men's Average Salary </h4>
-      <%= number_to_currency(men_salary / men_count) %>
-      <h4> Total Men Workforce </h4>
-      <%= number_with_delimiter(men_count) %>
-      <h4> Total Men Workforce Percentage</h4>
-      <%= number_to_percentage((men_count.to_f/(men_count + women_count))*100, precision: 2) %>
-    <% end %>
-  <br>
-    <% if men_count != 0 || women_count != 0 %>
-      <h4> Total Jobs with this Title for this Department</h4>
-      <%= number_with_delimiter(men_count + women_count) %>
-      <h4> Average Salary for this Job Title in this Department</h4>
-      <%= number_to_currency((men_salary + women_salary)/(men_count + women_count)) %>
-    <% end %>
+<div id="container" style="width: 550px; height: 400px; margin: 0 auto"></div>
+<script language="JavaScript">
+$(document).ready(function() {
+    var options = {
+        chart: {
+            renderTo: 'container',
+            type: 'column'
+        },
+        title: {
+            text: "Average Salary Men/Women for a <%= @job_title.title %>"
+        },
+        subtitle: {
+            text: "Source: opendata.miamidade.gov"
+        },
+        colors: ['#0000FF', '#800080']
+    };
 
-<br>
+    // $.getJSON('/departments/<%=@job_title.id%>/year/<%=@year%>.json', function(data) {
+    $.getJSON('/departments/<%=Department.find_by(id: @job_title.department_id).id%>/job_titles/<%=@job_title.id%>/year/<%=@year%>.json', function(data) {
+        var men_data = [];
+        var women_data = [];
+        var years = [];
+        for(key in data){
+          men_data.push(parseFloat(data[key].men));
+          women_data.push(parseFloat(data[key].women));
+          years.push(data[key].year);
+        }
+        options.yAxis = {
+          title: {
+              text: "Average Salary ($)"
+          }
+        }
+        options.xAxis = {
+          categories: years,
+          title: {
+              text: "Year"
+          }
+        }
+        options.series = [
+          {
+            name: 'Men',
+            data: men_data
+          },
+          {
+            name: 'Women',
+            data: women_data
+          }
+        ]
+        var chart = new Highcharts.Chart(options);
+    });
+});
+</script>
 
 <p class="link"><%= link_to 'Government Departments', departments_path %></p>
