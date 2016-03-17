@@ -46,6 +46,7 @@ footer {
   background-color: #0085BF;
   border: 2px solid #0085BF;
   color: white;
+  clear: both;
 }
 
 footer > p {
