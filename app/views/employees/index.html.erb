@@ -49,7 +49,7 @@
       <tr>
         <th class="text-center"> Name </th>
         <th class="text-center"> Gender </th>
-        <th class="text-center"> Salary </th>
+        <th class="text-center"> Average Salary </th>
         <th class="text-center"> Department </th>
         <th class="text-center"> Job Title </th>
       </tr>
@@ -104,15 +104,20 @@
       <% end %>
     </table>
 
-
     <div id="employees_chart_container" style="width: 1000px; height: 400px; margin: 0 auto"></div>
+    <button id="column">Change Chart</button>
+
 </div>
-<script language="JavaScript">
+<script>
 $(document).ready(function() {
+  var chartType ;
+  var chart = true;
+
+  var graph = function (chartType) {
     var options = {
         chart: {
             renderTo: 'employees_chart_container',
-            type: 'column'
+            type: chartType || 'spline'
         },
         title: {
             text: "Average Salary Men/Women in Miami-Dade"
@@ -155,6 +160,23 @@ $(document).ready(function() {
         ]
         var chart = new Highcharts.Chart(options);
     });
+  }
+
+  $("#column").click(function(event) {
+    event.preventDefault();
+    if(chart == true){
+      chartType = "column"
+      chart = false;
+    }else{
+      chartType = "spline"
+      chart = true;
+    }
+
+    graph(chartType);
+
+  });
+  graph();
 });
 </script>
+
 <%= link_to 'Departments', departments_path %>

@@ -63,15 +63,19 @@
 </table>
 
 <div id="jobs_chart_container" style="width: 1000px; height: 400px; margin: 0 auto"></div>
+<button id="column">Change Chart</button>
 </div>
 
-<script language="JavaScript">
+<script>
 $(document).ready(function() {
+  var chartType ;
+  var chart = true;
+
+  var graph = function (chartType) {
     var options = {
         chart: {
-            renderTo: 'jobs_chart_container',
-            type: 'spline'
-            // type: 'column'
+            renderTo: 'department_chart_container',
+            type: chartType || 'spline'
         },
         title: {
             text: "Average Salary Men/Women for a <%= @job_title.title %>"
@@ -82,7 +86,7 @@ $(document).ready(function() {
         colors: ['#0000FF', '#800080']
     };
 
-    $.getJSON('/departments/<%=Department.find_by(id: @job_title.department_id).id%>/job_titles/<%=@job_title.id%>/year/<%=@year%>.json', function(data) {
+      $.getJSON('/departments/<%=Department.find_by(id: @job_title.department_id).id%>/job_titles/<%=@job_title.id%>/year/<%=@year%>.json', function(data) {
         var men_data = [];
         var women_data = [];
         var years = [];
@@ -114,6 +118,22 @@ $(document).ready(function() {
         ]
         var chart = new Highcharts.Chart(options);
     });
+  }
+
+  $("#column").click(function(event) {
+    event.preventDefault();
+    if(chart == true){
+      chartType = "column"
+      chart = false;
+    }else{
+      chartType = "spline"
+      chart = true;
+    }
+
+    graph(chartType);
+
+  });
+  graph();
 });
 </script>
 

@@ -123,14 +123,19 @@
     <% end %>
   </table>
   <div id="department_chart_container" style="width: 1000px; height: 400px; margin: 0 auto"></div>
+  <button id="column">Change Chart</button>
 </div>
 
-<script language="JavaScript">
+<script>
 $(document).ready(function() {
+  var chartType ;
+  var chart = true;
+
+  var graph = function (chartType) {
     var options = {
         chart: {
             renderTo: 'department_chart_container',
-            type: 'column'
+            type: chartType || 'spline'
         },
         title: {
             text: "Average Salary Men/Women in <%= @department.name %>"
@@ -173,8 +178,25 @@ $(document).ready(function() {
         ]
         var chart = new Highcharts.Chart(options);
     });
+  }
+
+  $("#column").click(function(event) {
+    event.preventDefault();
+    if(chart == true){
+      chartType = "column"
+      chart = false;
+    }else{
+      chartType = "spline"
+      chart = true;
+    }
+
+    graph(chartType);
+
+  });
+  graph();
 });
 </script>
+
 
 <p class="bottom_links"> <%= link_to 'Home Page', employees_home_path %> |
 <%= link_to 'Salary Information for the County', employees_index_path %> </p>
