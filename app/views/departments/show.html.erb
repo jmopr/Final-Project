@@ -122,14 +122,14 @@
     </tr>
     <% end %>
   </table>
-  <div id="chart_container" style="width: 1000px; height: 400px; margin: 0 auto"></div>
+  <div id="department_chart_container" style="width: 1000px; height: 400px; margin: 0 auto"></div>
 </div>
 
 <script language="JavaScript">
 $(document).ready(function() {
     var options = {
         chart: {
-            renderTo: 'chart_container',
+            renderTo: 'department_chart_container',
             type: 'column'
         },
         title: {
@@ -176,5 +176,5 @@ $(document).ready(function() {
 });
 </script>
 
-<%= link_to 'Home Page', root_path %> |
-<%= link_to 'Salary Information for the County', employees_index_path %>
+<p class="bottom_links"> <%= link_to 'Home Page', employees_home_path %> |
+<%= link_to 'Salary Information for the County', employees_index_path %> </p>
