@@ -116,10 +116,13 @@ $(document).ready(function() {
         title: {
             text: "Average Salary Men/Women in Miami-Dade"
         },
+        subtitle: {
+            text: "Source: opendata.miamidade.gov"
+        },
         colors: ['#0000FF', '#800080']
     };
 
-    $.getJSON('http://localhost:3000/employees/index.json', function(data) {
+    $.getJSON('/employees/index.json', function(data) {
         var men_data = [];
         var women_data = [];
         var years = [];

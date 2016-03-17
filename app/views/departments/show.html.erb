@@ -134,11 +134,14 @@ $(document).ready(function() {
         title: {
             text: "Average Salary Men/Women in <%= @department.name %>"
         },
+        subtitle: {
+            text: "Source: opendata.miamidade.gov"
+        },
         colors: ['#0000FF', '#800080']
     };
 
-    // $.getJSON('http://localhost:3000/departments/<%@department.id%>/year/<%@year%>.json', function(data) {
-    $.getJSON('http://localhost:3000/departments/1/year/2016.json', function(data) {
+    $.getJSON('/departments/<%=@department.id%>/year/<%=@year%>.json', function(data) {
+    // $.getJSON('/departments/1/year/2016.json', function(data) {
         var men_data = [];
         var women_data = [];
         var years = [];
