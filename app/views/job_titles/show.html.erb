@@ -6,8 +6,8 @@
 <div class="col-md-5">
 <% job_titles = JobTitle.where(department_id: @job_title.department_id).sort_by &:title %>
 <%= form_tag '/departments/:department_id/job_titles/:id/year/:year', method: :get, id: 'job_route' do %>
-  <%= select_tag "job_Title", options_from_collection_for_select(job_titles, "id", "title") %>
-  <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}) %>
+  <%= select_tag "job_Title", options_from_collection_for_select(job_titles, "id", "title", :selected => params[:job_title_id]) %>
+  <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]) %>
   <%= submit_tag 'Search', class: 'search_button' %>
 <% end %>
 </div>
@@ -68,7 +68,8 @@ $(document).ready(function() {
     var options = {
         chart: {
             renderTo: 'container',
-            type: 'column'
+            type: 'spline'
+            // type: 'column'
         },
         title: {
             text: "Average Salary Men/Women for a <%= @job_title.title %>"

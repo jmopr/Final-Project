@@ -4,16 +4,17 @@
 </div>
   <div class="col-md-5">
   <%= form_tag '/departments/:id', method: :get, id: 'dept' do %>
-      <%= select_tag "department", options_from_collection_for_select(@departments = Department.all, "id", "name") %>
-      <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}) %>
+      <%= select_tag "department", options_from_collection_for_select(@departments = Department.all, "id", "name", :selected => params[:id]) %>
+      <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]) %>
+
       <%= submit_tag 'Search', class: 'search_button' %></span>
   <% end %>
   </div>
   <div class="col-md-4">
     <% job_titles = @department.job_titles.sort_by &:title %>
     <%= form_tag '/departments/:department_id/job_titles/:/job_title_id/year/:year', method: :get, id: 'job_route' do %>
-      <%= select_tag "job_Title", options_from_collection_for_select(job_titles, "id", "title") %>
-      <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}) %>
+      <%= select_tag "job_Title", options_from_collection_for_select(job_titles, "id", "title", :selected => params[:job_title_id]) %>
+      <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]) %>
       <%= hidden_field_tag "department_id", @department.id %>
       <%= submit_tag 'Search', class: 'search_button' %>
     <% end %>
@@ -69,7 +70,7 @@
     <tr>
       <th class="text-center"> Name </th>
       <th class="text-center"> Gender </th>
-      <th class="text-center"> Salary </th>
+      <th class="text-center"> Average Salary </th>
       <th class="text-center"> Department </th>
       <th class="text-center"> Job Title </th>
     </tr>
@@ -88,7 +89,7 @@
     <tr>
       <th class="text-center"> Name </th>
       <th class="text-center"> Gender </th>
-      <th class="text-center"> Salary </th>
+      <th class="text-center"> Average Salary </th>
       <th class="text-center"> Department </th>
       <th class="text-center"> Job Title </th>
     </tr>
@@ -107,7 +108,7 @@
     <tr>
       <th class="text-center"> Name </th>
       <th class="text-center"> Gender </th>
-      <th class="text-center"> Salary </th>
+      <th class="text-center"> Average Salary </th>
       <th class="text-center"> Department </th>
       <th class="text-center"> Job Title </th>
     </tr>

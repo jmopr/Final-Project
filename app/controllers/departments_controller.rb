@@ -6,7 +6,7 @@ class DepartmentsController < ApplicationController
   def show
     response.headers['Access-Control-Allow-Origin'] = '*'
     data = Department.get_all_data(params[:id])
-
+    
     respond_to do |format|
       format.html
       format.json { render json: JSON.pretty_generate(data.as_json), status: 200 }
