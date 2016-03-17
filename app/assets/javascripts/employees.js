@@ -6,7 +6,7 @@ $(document).on("ready",function(){
   });
 
   $( "#job_hover" ).hover(function() {
-      $(this).append("<a href='/departments/1/year/2016'><div class='title_append'>Our Job data description goes here</div>");
+      $(this).append("<a href='/departments/1/year/2016'><div class='title_append'><img alt='job_chart_data' id='job_chart_data_graph' src='/assets/job_chart_data' /></div>");
     }, function(){
         $(this).find("a:last").remove()
   });
