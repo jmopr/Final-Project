@@ -3,22 +3,22 @@
   <h3><%= "Data from #{@year}" %></h3>
 </div>
 <div class="text-center">
-<p>Select a different year</p>
-<%= form_tag('/employees/index', method: :get) do %>
+  <p>Select a different year</p>
+  <%= form_tag('/employees/index', method: :get) do %>
   <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]) %>
   <%= submit_tag 'Search', class: 'search_button btn btn-primary' %>
-<% end %>
+  <% end %>
 </div>
 <div class="panel panel-primary">
-    <p class="panel-heading">Select a department</p>
-    <div id="select_dept" class="panel-body" style="display:flex;flex-direction:column;justify-content:center;align-items: center;text-align:center;">
+  <p class="panel-heading">Select a department</p>
+  <div id="select_dept" class="panel-body" style="display:flex;flex-direction:column;justify-content:center;align-items: center;text-align:center;">
     <%= form_tag '/departments/:id', method: :get, id: 'dept' do %>
-      <%= select_tag "department", options_from_collection_for_select(@departments, "id", "name"), class:"form-control" %>
-      <br>
-      <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]), class:"form-control" %>
-      <br>
-      <%= submit_tag 'Search', class: 'search_button btn btn-primary' %>
-  <% end %>
+    <%= select_tag "department", options_from_collection_for_select(@departments, "id", "name"), class:"form-control" %>
+    <br>
+    <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]), class:"form-control" %>
+    <br>
+    <%= submit_tag 'Search', class: 'search_button btn btn-primary' %>
+    <% end %>
   </div>
 </div>
 

@@ -46,12 +46,16 @@ while data_year <= 2016
       name_gender = gender_guesser
     end
 
+    if data_year == 2016
+      salary = (row["YTD GROSS"].gsub(/[$,]/,'').strip.to_f) * BigDecimal(6)
+    else
+      salary = row['YTD GROSS'].gsub(/[$,]/,'').strip.to_f
+    end
     row_name = row["NAME"]
     department = row["DEPARTMENT"].split.map(&:capitalize).join(" ")
     title = row["TITLE"].split.map(&:capitalize).join(" ")
     unless employee_data.include?(row_name)
-      Employee.create(name: row_name,
-                      salary: row[4].gsub(/[$,]/,'').strip.to_f,
+      Employee.create(name: row_name, salary: salary,
                       gender: name_gender, data_year: data_year,
                       department_id: Department.find_by(name: department).id,
                       job_title_id: JobTitle.find_by(title: title).id)
