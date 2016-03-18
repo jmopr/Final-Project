@@ -1,4 +1,4 @@
-<div class="col-md-10">
+<div class="text-center">
   <h2><%= @department.name %> Data</h2>
   <h3><%= "Data from #{@year}" %></h3>
 </div>
@@ -16,52 +16,70 @@
       <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]) %>
       <%= hidden_field_tag "department_id", @department.id %>
       <%= submit_tag 'Search', class: 'search_button' %>
-    <% end %>
-  </div>
 
+<div class="panel panel-primary">
+  <p class="panel-heading" id="top_of_departments_page">Select a department</p>
+
+  <div class="text-center panel-primary" class="panel-body" style="display:flex;flex-direction:column;justify-content:center;align-items: center;text-align:center;">
+    <%= form_tag '/departments/:id', method: :get, id: 'dept' do %>
+    <%= select_tag "department", options_from_collection_for_select(@departments = Department.all, "id", "name", :selected => params[:id]), class:"form-control" %>
+    <br>
+    <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]), class:"form-control" %>
+    <br>
+    <%= submit_tag 'Search', class: 'search_button btn btn-primary' %></span>
+    <% end %>
+    <div id="department_chart_container" style="width: 100%; height: 400px; margin: 0 auto"></div>
+    <button class="btn btn-primary" id="column">Change Chart</button>
+  </div>
+  <!-- <br> -->
+  <!-- </div>
+  <div class="text-center panel panel-primary"> -->
+
+  <br>
+</div>
 <% women_salary = 0 %>
 <% women_count = 0 %>
 <% men_salary = 0 %>
 <% men_count = 0 %>
 
 <% @employees.each do |employee| %>
-  <% if employee.gender == "female" %>
-    <% women_salary += employee.salary %>
-    <% women_count += 1 %>
-  <% elsif employee.gender == "male" %>
-    <% men_salary += employee.salary %>
-    <% men_count += 1 %>
-  <% end %>
+<% if employee.gender == "female" %>
+<% women_salary += employee.salary %>
+<% women_count += 1 %>
+<% elsif employee.gender == "male" %>
+<% men_salary += employee.salary %>
+<% men_count += 1 %>
+<% end %>
 <% end %><br>
 
 <!-- General Data for the Department -->
 <div class="col-md-12">
   <h4> General Salary Data in this Department </h4>
-    <table class="table table-striped table-bordered text-center">
-      <tr>
-        <th class="text-center"> Gender </th>
-        <th class="text-center"> Average Salary </th>
-        <th class="text-center"> Total Workforce </th>
-        <th class="text-center"> Workforce Percentage </th>
-      </tr>
-      <tr>
-        <td>Male</td>
-        <td><%= number_to_currency(men_salary / men_count) %></td>
-        <td><%= number_with_delimiter(men_count) %></td>
-        <td><%= number_to_percentage((men_count.to_f/(men_count + women_count))*100, precision: 2) %></td>
-      </tr>
-      <tr>
-        <td>Female</td>
-        <td><%= number_to_currency(women_salary / women_count) %></td>
-        <td><%= number_with_delimiter(women_count) %></td>
-        <td><%= number_to_percentage((women_count.to_f/(men_count + women_count))*100, precision: 2) %></td>
-      </tr>
-      <tr>
-        <td>Department Totals</td>
-        <td><%= number_to_currency((women_salary + men_salary) / (men_count + women_count)) %></td>
-        <td><%= number_with_delimiter(men_count + women_count) %></td>
-        <td><%= number_to_percentage(100, precision: 2) %></td>
-      </tr>
+  <table class="table table-striped table-bordered text-center">
+    <tr>
+      <th class="text-center"> Gender </th>
+      <th class="text-center"> Average Salary </th>
+      <th class="text-center"> Total Workforce </th>
+      <th class="text-center"> Workforce Percentage </th>
+    </tr>
+    <tr>
+      <td>Male</td>
+      <td><%= number_to_currency(men_salary / men_count) %></td>
+      <td><%= number_with_delimiter(men_count) %></td>
+      <td><%= number_to_percentage((men_count.to_f/(men_count + women_count))*100, precision: 2) %></td>
+    </tr>
+    <tr>
+      <td>Female</td>
+      <td><%= number_to_currency(women_salary / women_count) %></td>
+      <td><%= number_with_delimiter(women_count) %></td>
+      <td><%= number_to_percentage((women_count.to_f/(men_count + women_count))*100, precision: 2) %></td>
+    </tr>
+    <tr>
+      <td>Department Totals</td>
+      <td><%= number_to_currency((women_salary + men_salary) / (men_count + women_count)) %></td>
+      <td><%= number_with_delimiter(men_count + women_count) %></td>
+      <td><%= number_to_percentage(100, precision: 2) %></td>
+    </tr>
   </table>
   <!-- Top Ten Salaries in the Department -->
   <h4> Top Ten Salaries in this Department </h4>
@@ -121,8 +139,20 @@
     </tr>
     <% end %>
   </table>
-  <div id="department_chart_container" style="width: 1000px; height: 400px; margin: 0 auto"></div>
-  <button id="column">Change Chart</button>
+
+</div>
+
+<p class="panel-heading">Select a job title within this department</p>
+<div class="text-center panel-primary" class="panel-body" style="display:flex;flex-direction:column;justify-content:center;align-items: center;text-align:center;">
+  <% job_titles = @department.job_titles.sort_by &:title %>
+  <%= form_tag '/departments/:department_id/job_titles/:/job_title_id/year/:year', method: :get, id: 'job_route' do %>
+  <%= select_tag "job_Title", options_from_collection_for_select(job_titles, "id", "title", :selected => params[:job_title_id]), class:"form-control" %>
+  <br>
+  <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]), class:"form-control" %>
+  <br>
+  <%= hidden_field_tag "department_id", @department.id %>
+  <%= submit_tag 'Search', class: 'search_button btn btn-primary' %>
+  <% end %>
 </div>
 
 <script>
@@ -132,50 +162,50 @@ $(document).ready(function() {
 
   var graph = function (chartType) {
     var options = {
-        chart: {
-            renderTo: 'department_chart_container',
-            type: chartType || 'spline'
-        },
-        title: {
-            text: "Average Salary Men/Women in <%= @department.name %>"
-        },
-        subtitle: {
-            text: "Source: opendata.miamidade.gov"
-        },
-        colors: ['#0000FF', '#800080']
+      chart: {
+        renderTo: 'department_chart_container',
+        type: chartType || 'spline'
+      },
+      title: {
+        text: "Average Salary Men/Women in <%= @department.name %>"
+      },
+      subtitle: {
+        text: "Source: opendata.miamidade.gov"
+      },
+      colors: ['#0000FF', '#800080']
     };
 
     $.getJSON('/departments/<%=@department.id%>/year/<%=@year%>.json', function(data) {
-        var men_data = [];
-        var women_data = [];
-        var years = [];
-        for(key in data){
-          men_data.push(parseFloat(data[key].men));
-          women_data.push(parseFloat(data[key].women));
-          years.push(data[key].year);
+      var men_data = [];
+      var women_data = [];
+      var years = [];
+      for(key in data){
+        men_data.push(parseFloat(data[key].men));
+        women_data.push(parseFloat(data[key].women));
+        years.push(data[key].year);
+      }
+      options.yAxis = {
+        title: {
+          text: "Average Salary ($)"
         }
-        options.yAxis = {
-          title: {
-              text: "Average Salary ($)"
-          }
+      }
+      options.xAxis = {
+        categories: years,
+        title: {
+          text: "Year"
         }
-        options.xAxis = {
-          categories: years,
-          title: {
-              text: "Year"
-          }
+      }
+      options.series = [
+        {
+          name: 'Men',
+          data: men_data
+        },
+        {
+          name: 'Women',
+          data: women_data
         }
-        options.series = [
-          {
-            name: 'Men',
-            data: men_data
-          },
-          {
-            name: 'Women',
-            data: women_data
-          }
-        ]
-        var chart = new Highcharts.Chart(options);
+      ]
+      var chart = new Highcharts.Chart(options);
     });
   }
 
@@ -198,4 +228,5 @@ $(document).ready(function() {
 
 
 <p class="bottom_links"> <%= link_to 'Home Page', employees_home_path %> |
-<%= link_to 'Salary Information for the County', employees_index_path %> </p>
+<%= link_to 'Salary Information for the County', employees_index_path %> |
+<a href="#top_of_departments_page">Change departments</a> </p>
