@@ -2,24 +2,8 @@
   <h2><%= @department.name %> Data</h2>
   <h3><%= "Data from #{@year}" %></h3>
 </div>
-  <div class="col-md-5">
-  <%= form_tag '/departments/:id', method: :get, id: 'dept' do %>
-      <%= select_tag "department", options_from_collection_for_select(@departments = Department.all, "id", "name", :selected => params[:id]) %>
-      <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]) %>
-      <%= submit_tag 'Search', class: 'search_button' %></span>
-  <% end %>
-  </div>
-  <div class="col-md-4">
-    <% job_titles = @department.job_titles.sort_by &:title %>
-    <%= form_tag '/departments/:department_id/job_titles/:/job_title_id/year/:year', method: :get, id: 'job_route' do %>
-      <%= select_tag "job_Title", options_from_collection_for_select(job_titles, "id", "title", :selected => params[:job_title_id]) %>
-      <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]) %>
-      <%= hidden_field_tag "department_id", @department.id %>
-      <%= submit_tag 'Search', class: 'search_button' %>
-
 <div class="panel panel-primary">
-  <p class="panel-heading" id="top_of_departments_page">Select a department</p>
-
+  <p class="panel-heading" id="top_of_departments_page">Select a another department</p>
   <div class="text-center panel-primary" class="panel-body" style="display:flex;flex-direction:column;justify-content:center;align-items: center;text-align:center;">
     <%= form_tag '/departments/:id', method: :get, id: 'dept' do %>
     <%= select_tag "department", options_from_collection_for_select(@departments = Department.all, "id", "name", :selected => params[:id]), class:"form-control" %>
@@ -28,15 +12,13 @@
     <br>
     <%= submit_tag 'Search', class: 'search_button btn btn-primary' %></span>
     <% end %>
-    <div id="department_chart_container" style="width: 100%; height: 400px; margin: 0 auto"></div>
-    <button class="btn btn-primary" id="column">Change Chart</button>
   </div>
-  <!-- <br> -->
-  <!-- </div>
-  <div class="text-center panel panel-primary"> -->
-
-  <br>
 </div>
+<div id="department_chart_container" style="width: 100%; height: 400px; margin: 0 auto"></div>
+<button class="btn btn-primary" id="column">Change Chart</button>
+
+
+
 <% women_salary = 0 %>
 <% women_count = 0 %>
 <% men_salary = 0 %>
@@ -139,7 +121,6 @@
     </tr>
     <% end %>
   </table>
-
 </div>
 
 <p class="panel-heading">Select a job title within this department</p>

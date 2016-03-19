@@ -1,31 +1,49 @@
-<div class="text-center">
-  <h2 id="top_of_employees_page">Employee Salaries in Miami-Dade County</h2>
-  <h3><%= "Data from #{@year}" %></h3>
-</div>
-<div class="text-center">
-  <p>Select a different year</p>
-  <%= form_tag('/employees/index', method: :get) do %>
-  <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]) %>
-  <%= submit_tag 'Search', class: 'search_button btn btn-primary' %>
-  <% end %>
-</div>
-<div class="panel panel-primary">
-  <p class="panel-heading">Select a department</p>
-  <div id="select_dept" class="panel-body" style="display:flex;flex-direction:column;justify-content:center;align-items: center;text-align:center;">
-    <%= form_tag '/departments/:id', method: :get, id: 'dept' do %>
-    <%= select_tag "department", options_from_collection_for_select(@departments, "id", "name"), class:"form-control" %>
-    <br>
-    <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]), class:"form-control" %>
-    <br>
-    <%= submit_tag 'Search', class: 'search_button btn btn-primary' %>
-    <% end %>
-    <div id="employees_chart_container" style="width: 100%; height: 400px; margin: 0 auto"></div>
-    <button class='btn btn-primary' id="column">Change Chart</button>
+<div class="col-md-2" style="position:fixed; z-index:1;padding-top:125px;">
+  <div class="panel" style="display:flex;flex-direction:column;justify-content:center;align-items: center;text-align:center;">
+    <div class="text-center">
+      <span><strong>Menu</strong></span>
+      <br>
+      <span>Select a different year</span>
+      <%= form_tag('/employees/index', method: :get) do %>
+      <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]), class:"form-control" %>
+      <br>
+      <%= submit_tag 'Search', class:'search_button btn btn-primary' %>
+      <% end %>
+    </div>
+    <div id="select_dept" class="panel-body" style="display:flex;flex-direction:column;justify-content:center;align-items: center;text-align:center;">
+      <p>Select a department</p>
+      <%= form_tag '/departments/:id', method: :get, id: 'dept' do %>
+      <%= select_tag "department", options_from_collection_for_select(@departments, "id", "name"), class:"form-control" %>
+      <br>
+      <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]), class:"form-control" %>
+      <br>
+      <%= submit_tag 'Search', class: 'search_dept_button btn btn-primary' %>
+      <% end %>
+    </div>
+    <div>
+      <%= link_to 'Departments', departments_path %><br>
+      <a href="#top_of_employees_page">Top of Page</a>
+    </div>
   </div>
 </div>
+<div class="col-md-10" style="float:right;">
+  <div class="text-center" style="margin-top:80px;">
+    <h2 id="top_of_employees_page">Employee Salaries in Miami-Dade County</h2>
+  </div>
+  <div id="employees_chart_container" style="width: 100%; height: 450px; margin: 0 auto;"></div>
+  <button id="column" class='btn btn-primary' style="display: block; margin: 0px auto;">Line Chart</button>
+</div>
+<div class="col-md-12" style="background-color: #0085BF; width: 100%; height: 50px;">
+  <ul class="nav navbar-nav">
+    <li><a href="#general" id="generalbutton">General Data</a></li>
+    <li><a href="#topten" id="toptenbutton">Top Ten Salaries</a></li>
+    <li><a href="#topmen" id="topmenbutton">Top Ten Men Salaries</a></li>
+    <li><a href="#topwomen" id="topwomenbutton">Top Ten Women Salaries</a></li>
+  </ul>
+</div>
 
-<!-- General Data for the County -->
-<div class="col-md-12">
+<div class="col-md-10" id="general" style="float:right;">
+  <h3><%= "Data from #{@year}" %></h3>
   <h4> General Data for Miami-Dade County </h4>
   <table class="table table-striped table-bordered text-center table table-hover">
     <tr>
@@ -53,9 +71,10 @@
       <td><%= number_to_percentage((@employees.females.count + @employees.males.count)*100 / @employees.count, precision: 2) %></td>
     </tr>
   </table>
-
-  <!-- Top Ten Salaries in the County -->
-  <h4> Top Ten Salaries in the County </h4>
+  <div id="gender_container" style="width: 100%; height: 450px; margin: 0 auto;"></div>
+  <button id="column" class='btn btn-primary' style="display: block; margin: 0px auto;">Line Chart</button>
+  <br>
+  <h4 id="topten"> Top Ten Salaries in the County </h4>
   <table class="table table-striped table-bordered text-center table table-hover">
     <tr>
       <th class="text-center"> Name </th>
@@ -73,8 +92,8 @@
   </tr>
   <% end %>
 </table>
-
-<h4> Top Ten Men Salaries in the County </h4>
+<br>
+<h4 id="topmen"> Top Ten Men Salaries in the County </h4>
 <table class="table table-striped table-bordered text-center table table-hover">
   <tr>
     <th class="text-center"> Name </th>
@@ -93,8 +112,8 @@
   </tr>
   <% end %>
 </table>
-
-<h4> Top Ten Women Salaries in the County </h4>
+<br>
+<h4 id="topwomen"> Top Ten Women Salaries in the County </h4>
 <table class="table table-striped table-bordered text-center table table-hover">
   <tr>
     <th class="text-center"> Name </th>
@@ -113,10 +132,9 @@
   </tr>
   <% end %>
 </table>
-
-
-
 </div>
+</div>
+
 <script>
 $(document).ready(function() {
   var chartType ;
@@ -175,18 +193,85 @@ $(document).ready(function() {
     event.preventDefault();
     if(chart == true){
       chartType = "column"
+      $("#column").html('Column Chart');
       chart = false;
     }else{
       chartType = "spline"
+      $("#column").html('Line Chart');
       chart = true;
     }
-
     graph(chartType);
-
   });
   graph();
 });
 </script>
+<script>
+$(document).ready(function() {
+  var chartType ;
+  var chart = true;
 
-<%= link_to 'Departments', departments_path %> |
-<a href="#top_of_employees_page">Top of Page</a>
+  var graph = function (chartType) {
+    var options = {
+      chart: {
+        renderTo: 'gender_container',
+        type: chartType || 'spline'
+      },
+      title: {
+        text: "Average Salary Men/Women in Miami-Dade"
+      },
+      subtitle: {
+        text: "Source: opendata.miamidade.gov"
+      },
+      colors: ['#0000FF', '#800080']
+    };
+
+    $.getJSON('/employees/index.json', function(data) {
+      var men_data = [];
+      var women_data = [];
+      var years = [];
+      for(key in data){
+        men_data.push(parseFloat(data[key].men));
+        women_data.push(parseFloat(data[key].women));
+        years.push(data[key].year);
+      }
+      options.yAxis = {
+        title: {
+          text: "Average Salary ($)"
+        }
+      }
+      options.xAxis = {
+        categories: years,
+        title: {
+          text: "Year"
+        }
+      }
+      options.series = [
+        {
+          name: 'Men',
+          data: men_data
+        },
+        {
+          name: 'Women',
+          data: women_data
+        }
+      ]
+      var chart = new Highcharts.Chart(options);
+    });
+  }
+
+  $("#column").click(function(event) {
+    event.preventDefault();
+    if(chart == true){
+      chartType = "column"
+      $("#column").html('Column Chart');
+      chart = false;
+    }else{
+      chartType = "spline"
+      $("#column").html('Line Chart');
+      chart = true;
+    }
+    graph(chartType);
+  });
+  graph();
+});
+</script>

@@ -13,8 +13,12 @@
  *= require_tree .
  *= require_self
  */
-nav {
+nav.navbar {
   border: none !important;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
 }
 
 nav > div {
@@ -33,10 +37,6 @@ nav > div {
   background-color: #33c2ff !important;
 }
 
-nav {
-  position: fixed;
-}
-
 .socialmedia {
   height: 25px;
   width: 25px;
@@ -47,6 +47,7 @@ footer {
   border: 2px solid #0085BF;
   color: white;
   clear: both;
+  text-align: center;
 }
 
 footer > p {
