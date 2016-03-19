@@ -71,8 +71,7 @@
       <td><%= number_to_percentage((@employees.females.count + @employees.males.count)*100 / @employees.count, precision: 2) %></td>
     </tr>
   </table>
-  <div id="gender_container" style="width: 100%; height: 450px; margin: 0 auto;"></div>
-  <button id="column" class='btn btn-primary' style="display: block; margin: 0px auto;">Line Chart</button>
+  <div id="percentage_container" style="width: 100%; height: 450px; margin: 0 auto;"></div>
   <br>
   <div id="topten"></div>
   <br>
@@ -211,73 +210,54 @@ $(document).ready(function() {
   graph();
 });
 </script>
+
 <script>
 $(document).ready(function() {
-  var chartType ;
-  var chart = true;
-
-  var graph = function (chartType) {
-    var options = {
-      chart: {
-        renderTo: 'gender_container',
-        type: chartType || 'spline'
-      },
-      title: {
-        text: "Average Salary Men/Women in Miami-Dade"
-      },
-      subtitle: {
-        text: "Source: opendata.miamidade.gov"
-      },
-      colors: ['#0000FF', '#800080']
-    };
-
-    $.getJSON('/employees/index.json', function(data) {
-      var men_data = [];
-      var women_data = [];
-      var years = [];
-      for(key in data){
-        men_data.push(parseFloat(data[key].men));
-        women_data.push(parseFloat(data[key].women));
-        years.push(data[key].year);
-      }
-      options.yAxis = {
-        title: {
-          text: "Average Salary ($)"
-        }
-      }
-      options.xAxis = {
-        categories: years,
-        title: {
-          text: "Year"
-        }
-      }
-      options.series = [
-        {
-          name: 'Men',
-          data: men_data
-        },
-        {
-          name: 'Women',
-          data: women_data
-        }
-      ]
-      var chart = new Highcharts.Chart(options);
-    });
-  }
-
-  $("#column").click(function(event) {
-    event.preventDefault();
-    if(chart == true){
-      chartType = "column"
-      $("#column").html('Column Chart');
-      chart = false;
-    }else{
-      chartType = "spline"
-      $("#column").html('Line Chart');
-      chart = true;
+  var getColor = {
+       'AB': '#0000FF',
+       'BC': '#800080'
     }
-    graph(chartType);
+  $('#percentage_container').highcharts({
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie'
+    },
+    title: {
+      text: 'Female v. Male Percentage for Miami-Dade County in <%= @year %>'
+    },
+    tooltip: {
+      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: true,
+          format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+        }
+      }
+    },
+    subtitle: {
+      text: "Source: opendata.miamidade.gov"
+    },
+    series: [{
+      name: 'Percentage',
+      colorByPoint: true,
+      data: [{
+        name: 'Male',
+        y: <%= @employees.males.count %>,
+        color: getColor['AB']
+      }, {
+        name: 'Female',
+        y: <%= @employees.females.count %>,
+        color: getColor['BC'],
+        sliced: true,
+        selected: true
+      }]
+    }]
   });
-  graph();
 });
 </script>

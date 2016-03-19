@@ -45,10 +45,6 @@ $(document).on("ready",function(){
         return event.preventDefault();
       }, true);
     }
-    // event.preventDefault();
-    // $('html, body').animate({
-    //    scrollTop: $("#general").offset().top
-    // }, 2000);
   });
 
   $("#toptenbutton").click(function(event) {
