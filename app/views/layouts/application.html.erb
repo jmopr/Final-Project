@@ -12,12 +12,12 @@
   <script src="http://code.highcharts.com/highcharts.js"></script>
 </head>
 <body>
-  <nav class="navbar navbar-default navbar">
+  <nav class="navbar navbar-default">
     <div class="container-fluid">
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="/employees/home" id="nav_text">Home<span class="sr-only">(current)</span></a></li>
+          <li><a href="/employees/home" id="nav_text">Home</a></li>
           <li><a href="/departments" id="nav_text">Department Data</a></li>
           <li><a href="/departments/1/year/2016" id="nav_text">Job Data</a></li>
           <li><a href="/employees/index" id="nav_text">Wage Gap Data</a></li>
@@ -49,9 +49,9 @@
     </div><!-- /.container-fluid -->
   </nav>
 
-<%= yield %>
+  <%= yield %>
 
-<br>
+  <br>
   <footer>
     <p> Authors: Juan Ortiz and Ryan Barrar </p>
     <p> &copy;2016 </p>

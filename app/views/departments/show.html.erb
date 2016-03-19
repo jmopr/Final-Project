@@ -1,5 +1,5 @@
 <div id="top_of_departments_page"></div>
-<div class="col-md-2" style="position:fixed; z-index:1;padding-top:125px;">
+<div class="col-md-2" style="position:fixed; z-index:1;margin-top:125px;">
   <div class="panel" style="display:flex;flex-direction:column;justify-content:center;align-items: center;text-align:center;">
     <div class="text-center">
       <span><strong>Menu</strong></span>
@@ -150,78 +150,78 @@
   </div>
 </div>
 
-  <script>
-  $(document).ready(function() {
-    var chartType ;
-    var chart = true;
+<script>
+$(document).ready(function() {
+  var chartType ;
+  var chart = true;
 
-    var graph = function (chartType) {
-      var options = {
-        chart: {
-          renderTo: 'department_chart_container',
-          type: chartType || 'spline'
-        },
+  var graph = function (chartType) {
+    var options = {
+      chart: {
+        renderTo: 'department_chart_container',
+        type: chartType || 'spline'
+      },
+      title: {
+        text: "Average Salary Men/Women in <%= @department.name %>"
+      },
+      subtitle: {
+        text: "Source: opendata.miamidade.gov"
+      },
+      colors: ['#0000FF', '#800080']
+    };
+
+    $.getJSON('/departments/<%=@department.id%>/year/<%=@year%>.json', function(data) {
+      var men_data = [];
+      var women_data = [];
+      var years = [];
+      for(key in data){
+        men_data.push(parseFloat(data[key].men));
+        women_data.push(parseFloat(data[key].women));
+        years.push(data[key].year);
+      }
+      options.yAxis = {
         title: {
-          text: "Average Salary Men/Women in <%= @department.name %>"
+          text: "Average Salary ($)"
+        }
+      }
+      options.xAxis = {
+        categories: years,
+        title: {
+          text: "Year"
+        }
+      }
+      options.series = [
+        {
+          name: 'Men',
+          data: men_data
         },
-        subtitle: {
-          text: "Source: opendata.miamidade.gov"
-        },
-        colors: ['#0000FF', '#800080']
-      };
+        {
+          name: 'Women',
+          data: women_data
+        }
+      ]
+      var chart = new Highcharts.Chart(options);
+    });
+  }
 
-      $.getJSON('/departments/<%=@department.id%>/year/<%=@year%>.json', function(data) {
-        var men_data = [];
-        var women_data = [];
-        var years = [];
-        for(key in data){
-          men_data.push(parseFloat(data[key].men));
-          women_data.push(parseFloat(data[key].women));
-          years.push(data[key].year);
-        }
-        options.yAxis = {
-          title: {
-            text: "Average Salary ($)"
-          }
-        }
-        options.xAxis = {
-          categories: years,
-          title: {
-            text: "Year"
-          }
-        }
-        options.series = [
-          {
-            name: 'Men',
-            data: men_data
-          },
-          {
-            name: 'Women',
-            data: women_data
-          }
-        ]
-        var chart = new Highcharts.Chart(options);
-      });
+  $("#column").click(function(event) {
+    event.preventDefault();
+    if(chart == true){
+      chartType = "column"
+      chart = false;
+    }else{
+      chartType = "spline"
+      chart = true;
     }
 
-    $("#column").click(function(event) {
-      event.preventDefault();
-      if(chart == true){
-        chartType = "column"
-        chart = false;
-      }else{
-        chartType = "spline"
-        chart = true;
-      }
+    graph(chartType);
 
-      graph(chartType);
-
-    });
-    graph();
   });
-  </script>
+  graph();
+});
+</script>
 
 
-  <p class="bottom_links"> <%= link_to 'Home Page', employees_home_path %> |
-    <%= link_to 'Salary Information for the County', employees_index_path %> |
-    <a href="#top_of_departments_page">Top of page</a> </p>
+<p class="bottom_links"> <%= link_to 'Home Page', employees_home_path %> |
+  <%= link_to 'Salary Information for the County', employees_index_path %> |
+  <a href="#top_of_departments_page">Top of page</a> </p>
