@@ -21,7 +21,9 @@
       <% end %>
     </div>
     <div>
-      <%= link_to 'County Departments', departments_path %><br>
+      <%= link_to 'Home', root_path %><br>
+      <%= link_to 'County Departments', department_path(@departments.first) %><br>
+      <%= link_to 'Department Budget Percentage', departments_path %><br>
     </div>
   </div>
   <div id="secret" style="display: none;" style="display:flex;flex-direction:column;justify-content:center;align-items: center;text-align:center;">
@@ -146,8 +148,6 @@
   </tr>
   <% end %>
 </table>
-<div class="col-md-10" id="general_container" style="width: 100%; height: 375px; margin: 0 auto;"></div>
-</div>
 </div>
 
 <script>
@@ -269,57 +269,5 @@ $(document).ready(function() {
       }]
     }]
   });
-});
-</script>
-
-<script>
-$(document).ready(function() {
-  $('#general_container').highcharts({
-       chart: {
-           plotBackgroundColor: null,
-           plotBorderWidth: null,
-           plotShadow: false,
-           type: 'pie'
-       },
-       title: {
-           text: 'Budget Percentages for Each Department, <%= @year %>'
-       },
-       tooltip: {
-           pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-       },
-       plotOptions: {
-           pie: {
-               allowPointSelect: true,
-               cursor: 'pointer',
-               dataLabels: {
-                   enabled: true,
-                   format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                   style: {
-                       color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                   }
-               }
-           }
-       },
-       series: [{
-           name: 'Percentage',
-           colorByPoint: true,
-           data: [
-              <% index = 0 %>
-              <% while index <= @total_budget.length - 1 %>
-              <% dept = @total_budget[index][:name] %>//.split.join.sub(/[&']/, "") %>
-              <% %>
-              {
-                name: "<%= dept %>",
-                y: <%= @total_budget[index][:y].round(2) %>
-                <% index += 1 %>
-                <% if index == @total_budget.length %>
-                  }
-                <% else %>
-                  },
-                <% end %>
-              <% end %>
-           ]
-       }]
-   });
 });
 </script>

@@ -17,6 +17,5 @@ class EmployeesController < ApplicationController
       @employees = Employee.all_employees(@year)
       @departments = Department.all
       @job_titles = JobTitle.all
-      @total_budget = Employee.get_budgets(@year)
     end
 end

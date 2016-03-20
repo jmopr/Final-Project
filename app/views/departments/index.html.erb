@@ -1,26 +1,77 @@
-<div class="col-md-10 text" style="width: 100%; text-align: center;">
-  <h1>Salary Data for Miami-Dade County Government Departments</h1>
-  <h5>Select a department</h5>
+<div class="col-md-2" style="position:fixed; z-index:1;margin-top:125px;">
+  <div class="panel" style="display:flex;flex-direction:column;justify-content:center;align-items: center;text-align:center;">
+    <div class="text-center">
+      <span><strong>Menu</strong></span>
+      <br>
+      <span>Select a different year</span>
+      <%= form_tag('/departments/', method: :get) do %>
+      <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]), class:"form-control" %>
+      <br>
+      <%= submit_tag 'Search', class:'search_button btn btn-primary' %>
+      <% end %>
+    </div>
+    <div style="padding-top:10px;">
+      <%= link_to 'Home', root_path %><br>
+      <%= link_to 'County Departments Data', department_path(id: 1) %>
+    </div>
+  </div>
 </div>
-<div class="col-md-3" style="width:100%; display:flex; justify-content:center; text-align:center;">
-  <%= form_tag '/departments/:id', method: :get, id: 'dept' do %>
-    <%= select_tag "department", options_from_collection_for_select(@departments, "id", "name", :selected => params[:id]), class:"form-control" %>
-    <br>
-    <%= select_tag "year", options_for_select((2012..2016).to_a.reverse.map{|y| [y,y]}, :selected => params[:year]), class:"form-control" %>
-    <br>
-    <%= submit_tag 'Search', class: 'btn btn-primary', id: "search_button" %>
-  <% end %>
+<div class="text-center">
+  <h2>Budget Distribution for Miami-Dade County, <%=@year%></h2>
 </div>
-<div class="col-md-3">
-  <button type="backbutton" class="btn btn-primary">
-    <%= link_to 'Back', employees_home_path %>
-  </button>
+<div class="col-md-10" id="general_container" style="width: 100%; height: 600px; margin: 0 auto;"></div>
 </div>
-<div style="float:right">
-  <button type="generalbutton" class="btn btn-primary">
-    <%= link_to 'General Salary Information for the County', employees_index_path %>
-  </button>
+<div style="padding-top:580px;">
 </div>
-<div class="background_image">
-  <%=image_tag("miami_aerial", height: '340px',width: '100%', id: "miami_aerial")%>
-</div>
+
+<script>
+$(document).ready(function() {
+  $('#general_container').highcharts({
+       chart: {
+           plotBackgroundColor: null,
+           plotBorderWidth: null,
+           plotShadow: false,
+           type: 'pie'
+       },
+       title: {
+           text: 'Budget Percentages for Each Department, <%= @year %>'
+       },
+       tooltip: {
+           pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+       },
+       plotOptions: {
+           pie: {
+               allowPointSelect: true,
+               cursor: 'pointer',
+               dataLabels: {
+                   enabled: true,
+                   format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                   style: {
+                       color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                   }
+               }
+           }
+       },
+       series: [{
+           name: 'Percentage',
+           colorByPoint: true,
+           data: [
+              <% index = 0 %>
+              <% while index <= @total_budget.length - 1 %>
+              <% dept = @total_budget[index][:name] %>//.split.join.sub(/[&']/, "") %>
+              <% %>
+              {
+                name: "<%= dept %>",
+                y: <%= @total_budget[index][:y].round(2) %>
+                <% index += 1 %>
+                <% if index == @total_budget.length %>
+                  }
+                <% else %>
+                  },
+                <% end %>
+              <% end %>
+           ]
+       }]
+   });
+});
+</script>

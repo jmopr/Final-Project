@@ -3,11 +3,11 @@ Rails.application.routes.draw do
   get 'employees/index'
   get 'job_titles/show'
   get 'employees/home'
-
+  
   resources :departments do
     resources :job_titles
   end
-  
+
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy'
