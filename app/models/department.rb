@@ -1,7 +1,7 @@
 class Department < ActiveRecord::Base
   has_many :employees
   has_many :job_titles
-
+  
   # Returns a hash with the necessary data.
   def self.get_all_data(department_id)
     data = []

@@ -4,17 +4,13 @@ $(document).on("ready",function(){
     }, function(){
         $(this).find("a:last").remove()
   });
-// });
 
-// $(document).ready(function(){
   $( "#job_hover" ).hover(function() {
       $(this).append("<a href='/departments/1/year/2016'><div class='title_append'><img alt='job_chart_data' id='job_chart_data_graph' src='/assets/job_chart_data' /></div>");
     }, function(){
         $(this).find("a:last").remove()
   });
-// });
 
-// $(document).ready(function(){
   $( "#gender_hover" ).hover(function() {
       $(this).append("<a href='/employees/index'><div class='title_append'><img alt='gender_gap' id='gender_gap_graph' src='/assets/gender_gap_data' /></div>");
     }, function(){

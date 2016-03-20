@@ -2,8 +2,7 @@
 <html>
 <head>
   <title>Miami Dade County Data Center</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <!-- <link rel="socrata" href="/socrata.png"> -->
+  <%= favicon_link_tag 'socrata.png' %>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => false %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => false %>
@@ -17,10 +16,10 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="/employees/home" id="nav_text">Home</a></li>
+          <li><a href="/" id="nav_text">Home</a></li>
+          <li><a href="/employees/index" id="nav_text">General County Data</a></li>
           <li><a href="/departments" id="nav_text">Department Data</a></li>
           <li><a href="/departments/1/year/2016" id="nav_text">Job Data</a></li>
-          <li><a href="/employees/index" id="nav_text">Wage Gap Data</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li>

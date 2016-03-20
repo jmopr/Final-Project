@@ -21,28 +21,35 @@
       <% end %>
     </div>
     <div>
-      <%= link_to 'Departments', departments_path %><br>
-      <a href="#top_of_employees_page">Top of Page</a>
+      <%= link_to 'County Departments', departments_path %><br>
     </div>
   </div>
-</div>
-<div class="col-md-10" style="float:right;">
-  <div class="text-center" style="margin-top:80px;">
-    <h2 id="top_of_employees_page">Employee Salaries in Miami-Dade County</h2>
+  <div id="secret" style="display: none;" style="display:flex;flex-direction:column;justify-content:center;align-items: center;text-align:center;">
+    <button class='btn btn-primary' style= "margin: 0px auto;">General Data</button><br>
+    <button class='btn btn-primary' style= "margin: 0px auto;">Top Salaries</button><br>
+    <button class='btn btn-primary' style= "margin: 0px auto;">Top Men Salaries</button><br>
+    <button class='btn btn-primary' style= "margin: 0px auto;">Top Women Salaries</button><br>
+    <a href="#top">Top of Page</a>
   </div>
-  <div id="employees_chart_container" style="width: 100%; height: 450px; margin: 0 auto;"></div>
+</div>
+<div id="top">
+</div>
+<div class="col-md-10" style="float:right; margin-top:65px;">
+  <div class="text-center">
+    <h2>Employee Salaries in Miami-Dade County</h2>
+  </div>
+  <div id="employees_chart_container" style="width: 100%; height: 460px; margin: 0 auto;"></div>
   <button id="column" class='btn btn-primary' style="display: block; margin: 0px auto;">Line Chart</button>
-
-<div class="col-md-12 middle_bar" style="background-color: #0085BF; width: 100%; height: 50px;">
-  <ul class="nav navbar-nav">
-    <li><a href="#general" id="generalbutton" class="employee_page_bar">General Data</a></li>
-    <li><a href="#topten" id="toptenbutton" class="employee_page_bar">Top Ten Salaries</a></li>
-    <li><a href="#topmen" id="topmenbutton" class="employee_page_bar">Top Ten Men Salaries</a></li>
-    <li><a href="#topwomen" id="topwomenbutton" class="employee_page_bar">Top Ten Women Salaries</a></li>
-  </ul>
+  <div class="middle_bar" style="background-color: #0085BF; width: 100%; height: 60px;margin-top: 40px; padding-top: 5px;font-size: 20px;">
+    <ul class="nav navbar-nav">
+      <li><a href="#general" id="generalbutton" class="employee_page_bar">General Data</a></li>
+      <li><a href="#topten" id="toptenbutton" class="employee_page_bar">Top Ten Salaries</a></li>
+      <li><a href="#topmen" id="topmenbutton" class="employee_page_bar">Top Ten Men Salaries</a></li>
+      <li><a href="#topwomen" id="topwomenbutton" class="employee_page_bar">Top Ten Women Salaries</a></li>
+    </ul>
+  </div>
 </div>
-</div>
-<div class="col-md-10" id="general" style="float:right;">
+<div class="col-md-10" id="general" style="float:right; padding-top:50px;text-align:center;">
   <h3><%= "Data from #{@year}" %></h3>
   <h4> General Data for Miami-Dade County </h4>
   <table class="table table-striped table-bordered text-center table table-hover">
@@ -71,9 +78,9 @@
       <td><%= number_to_percentage((@employees.females.count + @employees.males.count)*100 / @employees.count, precision: 2) %></td>
     </tr>
   </table>
-  <div id="percentage_container" style="width: 100%; height: 450px; margin: 0 auto;"></div>
+  <div id="percentage_container" style="width: 100%; height: 375px; margin: 0 auto;"></div>
   <br>
-  <div id="topten"></div>
+  <div id="topten" style="padding-top:10px;"></div>
   <br>
   <br>
   <h4> Top Ten Salaries in the County </h4>
@@ -95,7 +102,7 @@
   <% end %>
 </table>
 <br>
-<div id="topmen"></div>
+<div id="topmen" style="padding-top:10px;"></div>
 <br>
 <br>
 <h4> Top Ten Men Salaries in the County </h4>
@@ -117,8 +124,10 @@
   </tr>
   <% end %>
 </table>
+<div id="topwomen" style="padding-top:10px;"></div>
 <br>
-<h4 id="topwomen"> Top Ten Women Salaries in the County </h4>
+<br>
+<h4> Top Ten Women Salaries in the County </h4>
 <table class="table table-striped table-bordered text-center table table-hover">
   <tr>
     <th class="text-center"> Name </th>
@@ -137,6 +146,7 @@
   </tr>
   <% end %>
 </table>
+<div class="col-md-10" id="general_container" style="width: 100%; height: 375px; margin: 0 auto;"></div>
 </div>
 </div>
 
@@ -259,5 +269,57 @@ $(document).ready(function() {
       }]
     }]
   });
+});
+</script>
+
+<script>
+$(document).ready(function() {
+  $('#general_container').highcharts({
+       chart: {
+           plotBackgroundColor: null,
+           plotBorderWidth: null,
+           plotShadow: false,
+           type: 'pie'
+       },
+       title: {
+           text: 'Budget Percentages for Each Department, <%= @year %>'
+       },
+       tooltip: {
+           pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+       },
+       plotOptions: {
+           pie: {
+               allowPointSelect: true,
+               cursor: 'pointer',
+               dataLabels: {
+                   enabled: true,
+                   format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                   style: {
+                       color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                   }
+               }
+           }
+       },
+       series: [{
+           name: 'Percentage',
+           colorByPoint: true,
+           data: [
+              <% index = 0 %>
+              <% while index <= @total_budget.length - 1 %>
+              <% dept = @total_budget[index][:name] %>//.split.join.sub(/[&']/, "") %>
+              <% %>
+              {
+                name: "<%= dept %>",
+                y: <%= @total_budget[index][:y].round(2) %>
+                <% index += 1 %>
+                <% if index == @total_budget.length %>
+                  }
+                <% else %>
+                  },
+                <% end %>
+              <% end %>
+           ]
+       }]
+   });
 });
 </script>

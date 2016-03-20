@@ -11,14 +11,12 @@ class EmployeesController < ApplicationController
     end
   end
 
-  def home
-  end
-
   private
     def get_params
       @year = params[:year] ? params[:year] : 2016
       @employees = Employee.all_employees(@year)
       @departments = Department.all
       @job_titles = JobTitle.all
+      @total_budget = Employee.get_budgets(@year)
     end
 end

@@ -7,6 +7,23 @@ class Employee < ActiveRecord::Base
   scope :all_employees, -> (year) { where(data_year: year) }
   scope :top_ten_salaries, -> { order(salary: :desc).limit(10) }
 
+  # Return the total for all departments.
+  def self.get_budgets(year)
+    total_budget = []
+    departments = Department.all
+    departments.each do |department|
+      dept_info = {}
+      dept_budget = 0
+      employees_department = Employee.where(data_year: year, department_id: department.id)
+      employees_department.each do |employee|
+        dept_budget += employee.salary
+      end
+      dept_info = {name: department.name, y: dept_budget.to_f}
+      total_budget << dept_info
+    end
+    return total_budget
+  end
+
   # Returns a hash with the necessary data.
   def self.get_all_data
     data = []
