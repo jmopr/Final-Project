@@ -36,11 +36,11 @@ $(document).on("ready",function(){
     }, 2000);
   });
 
-  $("#generalbutton").click(function(event){
-    event.preventDefault();
-    $("#secret").show();
-    $("#theDiv").show();
-  })
+  // $("#generalbutton").click(function(event){
+  //   event.preventDefault();
+  //   $("#secret").show();
+  //   $("#theDiv").show();
+  // })
 
   $("#toptenbutton").click(function(event) {
     event.preventDefault();
