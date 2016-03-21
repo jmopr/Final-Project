@@ -3,6 +3,13 @@ class EmployeesController < ApplicationController
   before_action :get_params, only: [:index]
   before_action :authorize
 
+  def api
+    # render json: JSON.pretty_generate(Employee.all_employees(2016).as_json)
+    # render json: JSON.pretty_generate(Employee..as_json)
+    # department =
+    render :json => Employee.all_employees(2016).to_json(:only => ["name", "salary", "gender"])
+  end
+
   def index
     response.headers['Access-Control-Allow-Origin'] = '*'
     respond_to do |format|

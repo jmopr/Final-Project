@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   get 'employees/index'
   get 'job_titles/show'
   get 'employees/home'
-  
+
+  get 'employees/api'
+
   resources :departments do
     resources :job_titles
   end
