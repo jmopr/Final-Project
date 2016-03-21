@@ -42,18 +42,23 @@
               <img class="socialmedia" src="http://www.upgradepropertymaintenance.co.uk/icon_instagram.png"/>
             </a>
           </li>
-          <li id="logout"><a href="/logout">Logout</a></li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
+          <% if current_user %>
+            <li id="logout"><%= link_to "Logout", '/logout' %><li>
+            <% else %>
+            <li><%= link_to 'Login', '/login' %></li>
+            <li><%= link_to 'Signup', '/signup' %></li>
+            <% end %>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
 
-  <%= yield %>
+    <%= yield %>
 
-  <br>
-  <footer>
-    <p> Authors: Juan Ortiz and Ryan Barrar </p>
-    <p> &copy;2016 </p>
-  </footer>
-</body>
-</html>
+    <br>
+    <footer>
+      <p> Authors: Juan Ortiz and Ryan Barrar </p>
+      <p> &copy;2016 </p>
+    </footer>
+  </body>
+  </html>
