@@ -1,7 +1,9 @@
 class JobTitle < ActiveRecord::Base
   belongs_to :department
   has_many :employees
-  
+
+  scope :total, -> (year) { where(data_year: year) }
+
   # Returns a hash with the necessary data.
   def self.get_all_data(job_title_id)
     data = []

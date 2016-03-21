@@ -15,7 +15,7 @@ class DepartmentsController < ApplicationController
 
   def index
     @year = params[:year] ? params[:year] : 2016
-    @departments = Department.all.sort_by &:name
+    @departments = Department.all
     @job_titles = JobTitle.all
     @total_budget = Department.get_budgets(@year)
   end

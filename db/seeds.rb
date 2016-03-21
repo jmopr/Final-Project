@@ -14,14 +14,15 @@ while data_year <= 2016
   csv1.each do |row|
     department = row["DEPARTMENT"].split.map(&:capitalize).join(" ")
     unless department_data.include?(department)
-      Department.create(name: department)
+      Department.create(name: department, data_year: data_year)
       department_data << department
     end
 
     title = row["TITLE"].split.map(&:capitalize).join(" ")
     unless job_data.include?(title)
       JobTitle.create(title: title,
-                      department_id: Department.find_by(name: department).id)
+                      department_id: Department.find_by(name: department).id,
+                      data_year: data_year)
       job_data << title
     end
   end

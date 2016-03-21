@@ -2,6 +2,11 @@ class Department < ActiveRecord::Base
   has_many :employees
   has_many :job_titles
 
+  # Return total number of department for a year.
+  def self.total(year)
+    return Department.where(data_year: year).count
+  end
+
   # Return the total for all departments.
   def self.get_budgets(year)
     total_budget = []
