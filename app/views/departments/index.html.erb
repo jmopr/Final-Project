@@ -16,13 +16,8 @@
     </div>
   </div>
 </div>
-<div class="text-center">
-  <h2>Budget Distribution for Miami-Dade County, <%=@year%></h2>
-</div>
-<div class="col-md-10" id="general_container" style="width: 100%; height: 600px; margin: 0 auto;"></div>
-</div>
-<div style="padding-top:580px;">
-</div>
+
+<div class="col-md-10" id="general_container" style="width: 100%; height: 600px; margin-top: 70px;"></div>
 
 <script>
 $(document).ready(function() {
@@ -34,7 +29,7 @@ $(document).ready(function() {
            type: 'pie'
        },
        title: {
-           text: 'Budget Percentages for Each Department, <%= @year %>'
+           text: 'Employee Salary\'s Budget Percentages for Each Department, <%= @year %>'
        },
        tooltip: {
            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -51,6 +46,9 @@ $(document).ready(function() {
                    }
                }
            }
+       },
+       subtitle: {
+         text: "Source: opendata.miamidade.gov"
        },
        series: [{
            name: 'Percentage',

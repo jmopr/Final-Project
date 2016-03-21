@@ -80,11 +80,11 @@
       <td><%= number_to_percentage((@employees.females.count + @employees.males.count)*100 / @employees.count, precision: 2) %></td>
     </tr>
   </table>
-  <div id="percentage_container" style="width: 100%; height: 375px; margin: 0 auto;"></div>
+  <div class="col-md-5" id="percentage_container" style="width: 50%; height: 375px; margin: 0 auto;"></div>
+  <div class="col-md-5" id="us_container" style="width: 50%; height: 375px; margin: 0 auto;"></div>
+  <br>
   <br>
   <div id="topten" style="padding-top:10px;"></div>
-  <br>
-  <br>
   <h4> Top Ten Salaries in the County </h4>
   <table class="table table-striped table-bordered text-center table table-hover">
     <tr>
@@ -263,6 +263,57 @@ $(document).ready(function() {
       }, {
         name: 'Female',
         y: <%= @employees.females.count %>,
+        color: getColor['BC'],
+        sliced: true,
+        selected: true
+      }]
+    }]
+  });
+});
+</script>
+
+<script>
+$(document).ready(function() {
+  var getColor = {
+       'AB': '#0000FF',
+       'BC': '#800080'
+    }
+  $('#us_container').highcharts({
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie'
+    },
+    title: {
+      text: 'Female v. Male Percentage for U.S. in 2010'
+    },
+    tooltip: {
+      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: true,
+          format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+        }
+      }
+    },
+    subtitle: {
+      text: "Source: U.S Dept. Of Labor http://www.dol.gov/"
+    },
+    series: [{
+      name: 'Percentage',
+      colorByPoint: true,
+      data: [{
+        name: 'Male',
+        y: 53,
+        color: getColor['AB']
+      }, {
+        name: 'Female',
+        y: 47,
         color: getColor['BC'],
         sliced: true,
         selected: true

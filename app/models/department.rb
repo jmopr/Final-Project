@@ -19,6 +19,16 @@ class Department < ActiveRecord::Base
     return total_budget
   end
 
+  # Return total of employees in a department.
+  def self.get_employees(year)
+    total_employees = 0
+    departments = Department.all
+    departments.each do |department|
+      total_employees += Employee.where(data_year: year, department_id: department.id).count
+    end
+    return total_employees
+  end
+
   # Returns a hash with the necessary data.
   def self.get_all_data(department_id)
     data = []
