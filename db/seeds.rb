@@ -14,15 +14,14 @@ while data_year <= 2016
   csv1.each do |row|
     department = row["DEPARTMENT"].split.map(&:capitalize).join(" ")
     unless department_data.include?(department)
-      Department.create(name: department, data_year: data_year)
+      Department.create(name: department)
       department_data << department
     end
 
     title = row["TITLE"].split.map(&:capitalize).join(" ")
     unless job_data.include?(title)
       JobTitle.create(title: title,
-                      department_id: Department.find_by(name: department).id,
-                      data_year: data_year)
+                      department_id: Department.find_by(name: department).id)
       job_data << title
     end
   end
@@ -48,7 +47,7 @@ while data_year <= 2016
     end
 
     if data_year == 2016
-      salary = (row["YTD GROSS"].gsub(/[$,]/,'').strip.to_f * BigDecimal(4)
+      salary = (row["YTD GROSS"].gsub(/[$,]/,'').strip.to_f * BigDecimal(4))
     else
       salary = row['YTD GROSS'].gsub(/[$,]/,'').strip.to_f
     end
