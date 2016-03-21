@@ -48,7 +48,7 @@ while data_year <= 2016
     end
 
     if data_year == 2016
-      salary = ((row["YTD GROSS"].gsub(/[$,]/,'').strip.to_f / BigDecimal(75)) * BigDecimal(365))
+      salary = (row["YTD GROSS"].gsub(/[$,]/,'').strip.to_f * BigDecimal(4)
     else
       salary = row['YTD GROSS'].gsub(/[$,]/,'').strip.to_f
     end
