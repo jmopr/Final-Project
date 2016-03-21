@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   end
 
   def home
-    render :layout => false
+    # render :layout => false
   end
 
   def create
