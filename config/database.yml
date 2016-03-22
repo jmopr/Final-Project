@@ -18,13 +18,13 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  database: code_for_miami_test
   <<: *default
+  database: code_for_miami_test
 
 production:
-  database: code_for_miami
   <<: *default
+  database: code_for_miami
 
-# staging: 
+# staging:
 #   database: code_for_miami_staging
 #   <<: *default
