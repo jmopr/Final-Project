@@ -65,8 +65,8 @@
   </div>
   <!-- General Data for the Department -->
   <br id="general">
-  <br>
-  <h4><%= "General Salary Data for this Department for #{@year}" %><h3> 
+  <div class="col-md-10" id="general" style="float:right;text-align:center;">
+  <h4><%= "General Salary Data for this Department for #{@year}" %><h3>
   <table class="table table-striped table-bordered text-center table table-hover">
     <tr>
       <th class="text-center"> Gender </th>
@@ -99,6 +99,7 @@
     </tr>
     <% end %>
   </table>
+  </div>
   <div id="percentage_container" style="width: 100%; height: 375px; margin: 0 auto;"></div>
   <!-- Top Ten Salaries in the Department -->
   <br id="topten">
