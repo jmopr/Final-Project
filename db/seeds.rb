@@ -11,6 +11,7 @@ gender = GenderDetector.new
 while data_year <= 2016
   csv_text1 = File.read("#{data_year}-salaries.csv")
   csv1 = CSV.parse(csv_text1, :headers => true)
+  puts "processing department and job title data....."
   csv1.each do |row|
     department = row["DEPARTMENT"].split.map(&:capitalize).join(" ")
     unless department_data.include?(department)
@@ -35,9 +36,10 @@ while data_year <= 2016
 
   csv_text2 = File.read("#{data_year}-salaries.csv")
   csv2 = CSV.parse(csv_text2, :headers => true)
+    puts "processing employee data....."
   csv2.each do |row|
     name = row[0].split(',')[1].strip.split(' ')[0].capitalize
-    name_gender = gender.get_gender(name)
+    name_gender = gender.get_gender(name, :usa)
     if name_gender == :mostly_female
       name_gender = :female
     elsif name_gender == :mostly_male
