@@ -3,9 +3,8 @@ class JobTitlesController < ApplicationController
   before_action :authorize
 
   def show
-    @year = params[:year]
+    @year = params[:year] ? params[:year] : 2016
     @job_title = JobTitle.find(params[:job_title_id])
-    # @department = Department.find(params[:department_id])
     @employees = Employee.where(job_title_id: @job_title.id,
                                 data_year: @year)
 
