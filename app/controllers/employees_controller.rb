@@ -15,6 +15,10 @@ class EmployeesController < ApplicationController
     end
   end
 
+  def show
+    @employee = Employee.find_by(name: params[:name].upcase)
+  end
+
   private
     def get_params
       @year = params[:year] ? params[:year] : 2016

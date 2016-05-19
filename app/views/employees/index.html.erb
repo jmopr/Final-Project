@@ -21,6 +21,16 @@
       <% end %>
     </div>
     <div>
+      <p>Search for an employee by name</p>
+      <%= form_tag('/employees/show', method: :get) do %>
+      <%= text_field_tag 'name', nil, placeholder: 'Enter name' %>
+      <br>
+      <br>
+      <%= submit_tag 'Search', class:'search_button btn btn-primary' %>
+      <% end %>
+      <br>
+    </div>
+    <div>
       <%= link_to 'Home', root_path %><br>
       <%= link_to 'County Departments', department_path(@departments.first) %><br>
       <%= link_to 'Department Budget Percentage', departments_path %><br>

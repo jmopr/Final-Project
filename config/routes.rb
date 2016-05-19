@@ -6,8 +6,7 @@ Rails.application.routes.draw do
 
   root 'static_pages#home'
   get 'employees/index'
-  get 'job_titles/show'
-  get 'employees/home'
+  get 'employees/show'
 
   # get 'employees/api'
 
