@@ -56,7 +56,7 @@ $(document).ready(function() {
            data: [
               <% index = 0 %>
               <% while index <= @total_budget.length - 1 %>
-              <% dept = @total_budget[index][:name] %>//.split.join.sub(/[&']/, "") %>
+              <% dept = @total_budget[index][:name] %>
               <% %>
               {
                 name: "<%= dept %>",
