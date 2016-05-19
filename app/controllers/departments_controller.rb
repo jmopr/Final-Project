@@ -1,7 +1,7 @@
 require 'json'
 class DepartmentsController < ApplicationController
   before_action :get_params, only: [:show]
-  before_action :authorize
+  # before_action :authorize
 
   def show
     response.headers['Access-Control-Allow-Origin'] = '*'

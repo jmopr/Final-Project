@@ -1,6 +1,6 @@
 require 'json'
 class JobTitlesController < ApplicationController
-  before_action :authorize
+  # before_action :authorize
 
   def show
     @year = params[:year] ? params[:year] : 2016

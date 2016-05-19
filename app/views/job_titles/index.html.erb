@@ -1,4 +1,4 @@
-<h1>Data for Miami Dade County Government Job Titles#index</h1>
+<h1>Data for Miami Dade County Government Job Titles</h1>
 <p>Select the job title for more information related to it</p>
 <%= form_tag('/job_titles/id', method: :get) do %>
   <%= select_tag "id", options_from_collection_for_select(@job_titles, "id", "title") %>
