@@ -7,6 +7,10 @@ class Employee < ActiveRecord::Base
   scope :all_employees, -> (year) { where(data_year: year) }
   scope :top_ten_salaries, -> { order(salary: :desc).limit(10) }
 
+  # def self.search(employee)
+  #   where('LOWER(name) LIKE :employee', employee: "%#{employee.downcase}%")
+  # end
+
   # Returns a hash with the necessary data.
   def self.get_all_data
     data = []
