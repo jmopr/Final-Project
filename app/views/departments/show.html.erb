@@ -2,8 +2,7 @@
 <div class="col-md-2" style="position:fixed; z-index:1;margin-top:125px;">
   <div class="panel" style="display:flex;flex-direction:column;justify-content:center;align-items: center;text-align:center;">
     <div class="text-center">
-      <span><strong>Menu</strong></span>
-      <br>
+      <p><strong>Menu</strong></p>
       <span>Select a different department</span>
       <div id="select_dept" class="panel-body" style="display:flex;flex-direction:column;justify-content:center;align-items: center;text-align:center;">
         <%= form_tag '/departments/:id', method: :get, id: 'dept' do %>
@@ -15,7 +14,7 @@
         <% end %>
       </div>
       <br>
-      <span class="panel-heading">Select a job title</span>
+      <span>Select a job title</span>
       <div class="text-center panel-primary" class="panel-body" style="display:flex;flex-direction:column;justify-content:center;align-items: center;text-align:center;">
         <% job_titles = @department.job_titles.sort_by &:title %>
         <%= form_tag '/departments/:department_id/job_titles/:/job_title_id/year/:year', method: :get, id: 'job_route' do %>
@@ -27,6 +26,16 @@
         <% end %>
       </div>
       <br>
+      <div>
+        <span>Search for an employee by name</span>
+        <%= form_tag('/employees/show', method: :get) do %>
+        <%= text_field_tag 'name', nil, placeholder: 'Enter name' %>
+        <br>
+        <br>
+        <%= submit_tag 'Search', class:'search_button btn btn-primary' %>
+        <% end %>
+        <br>
+      </div>
       <div>
         <a href="#top_of_departments_page">Top of Page</a>
       </div>
