@@ -7,8 +7,7 @@ Rails.application.routes.draw do
   root 'static_pages#home'
   get 'employees/index'
   get 'employees/show'
-
-  # get 'employees/api'
+  get 'employees/api'
 
   resources :departments do
     resources :job_titles

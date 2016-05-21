@@ -4,7 +4,7 @@ class EmployeesController < ApplicationController
   # before_action :authorize
 
   def api
-    render :json => Employee.all_employees(2016).to_json(:only => ["name", "salary", "gender"])
+    render :json => Employee.all_employees(2016).to_json(:only => ["name", "salary", "gender"], :include => [:department, :job_title])
   end
 
   def index
